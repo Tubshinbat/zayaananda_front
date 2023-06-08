@@ -1,0 +1,88 @@
+.HomeSlide {
+  width: 100%;
+  height: 100%;
+  position: absolute !important;
+  z-index: -1 !important;
+  top: 0;
+  right: 0;
+}
+
+.HomeSlideItem video {
+  width: 100% !important;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 100vh !important;
+  min-height: 100% !important;
+}
+
+.HomeSlideItem {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.HomeBannerBg {
+  position: absolute !important;
+  z-index: -1 !important;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    0deg,
+    rgb(9, 11, 65) 0%,
+    rgba(6, 56, 100, 0) 62%,
+    rgb(6, 90, 163) 100%
+  );
+}
+
+.NewsSlideItem {
+  color: #fff;
+  display: flex;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  z-index: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.NewsSlideItem img {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+  border-radius: 12px;
+  filter: drop-shadow(0 5px 5px #0007);
+}
+
+.NewsSlideItem img {
+  width: 100%;
+}
+
+.BannerButton {
+  background-color: #0a5190;
+  color: #fff;
+  width: 55px;
+  height: 55px;
+  border-radius: 0px solid none;
+  border: 0px;
+  border-radius: 50px;
+  transition: all 0.3s ease-in;
+  font-size: 22px;
+}
+.BannerButton:hover {
+  background-color: #03325e;
+}
