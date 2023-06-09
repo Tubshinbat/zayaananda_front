@@ -1669,6 +1669,26 @@ footer ul div a:hover {
 }
 
 /* pages styles */
+
+.page_images{
+  float: left;
+  width: 60%;
+}
+
+.page_images img{
+  max-width: 100%;
+}
+
+.page_sides{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page_booking_time h4{
+  font-size: 16px;
+}
+
 .pageDetailsHeader h2 {
   font-size: 24px;
 }
