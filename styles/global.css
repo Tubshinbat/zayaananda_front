@@ -14,7 +14,7 @@
 /*  1.  Theme default CSS
 /*----------------------------------------*/
 
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100;200;300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 section {
   padding: 70px 0px;
@@ -58,12 +58,12 @@ table {
 body {
   overflow-x: hidden;
   font-weight: normal;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Geologica', sans-serif;
   background: #fff !important;
 }
 
 main.black {
-  background: #0a071b !important;
+  background: rgb(241, 241, 241) !important;
 }
 
 /* Section  */
@@ -76,9 +76,13 @@ main.black {
   text-transform: uppercase;
   font-weight: bold;
   padding-bottom: 18px;
-  border-bottom: 3px solid #1c0228;
+  border-bottom: 2px solid #e7e7e7;
   justify-content: space-between;
   align-items: end;
+}
+
+.sectionHeader.dark{
+    border-bottom: 2px solid #001829;
 }
 
 .sectionHeader.center {
@@ -92,8 +96,8 @@ main.black {
   margin-bottom: 5px;
 }
 
-.sectionTitle.white {
-  color: #fff;
+.sectionTitle h3.white {
+  color: rgb(255, 255, 255);
 }
 
 .pagesections {
@@ -102,10 +106,10 @@ main.black {
 }
 
 .sectionTitle h3 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #fff;
+  color: rgb(48, 48, 48);
 }
 .sectionHeader a {
   color: rgb(158, 158, 158);
@@ -209,7 +213,7 @@ main.black {
 }
 
 .header__title {
-  font-family: "Philosopher", "Roboto Slab", "Montserrat", sans-serif;
+  font-family: 'Geologica', sans-serif;
   font-size: 36px;
   opacity: 0;
 }
@@ -253,6 +257,10 @@ main.black {
   background-color: #54c7d7;
   -webkit-backdrop-filter: blur(20px);
   padding: 10px 0px;
+}
+
+.mainHeader.headerBlock .cart-btn{
+  border-color: #1fa0b1a2;
 }
 
 .mainHeader.headerBlock .whiteLogo {
@@ -439,10 +447,11 @@ main.black {
 }
 
 .service-item h4 {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 600;
   transition: all 0.3s;
   margin-bottom: 15px;
+  color:#001829;
 }
 
 .service-item a h4:hover {
@@ -809,7 +818,7 @@ main.black {
   display: flex;
   justify-content: center;
   padding: 12px 0px;
-  background: #76418e;
+  background: #2a1c3f;
   color: #fff;
   font-size: 12px;
   text-transform: uppercase;
@@ -823,83 +832,6 @@ main.black {
   color: #fff;
 }
 
-.share-post-box {
-  margin: 20px 0px;
-  padding: 0px;
-}
-
-.share-post-box ul.share-box {
-  margin: 0;
-  padding: 0;
-}
-
-.share-post-box ul.share-box li {
-  display: inline-block;
-  color: #666666;
-  font-size: 10px;
-  font-family: "Montserrat", sans-serif;
-  margin-right: 8px;
-  margin-bottom: 2px;
-}
-
-.share-post-box ul.share-box li i {
-  font-size: 16px;
-  margin-right: 12px;
-  color: #999999;
-  float: left;
-}
-
-.share-post-box ul.share-box li span {
-  display: inline-block;
-  line-height: 15px;
-}
-
-.share-post-box ul.share-box li a {
-  display: inline-block;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  color: #ffffff;
-  padding: 8px 12px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-
-.share-post-box ul.share-box li a i {
-  color: #ffffff;
-}
-
-.share-post-box ul.share-box li a.facebook {
-  background: #1854dd;
-}
-
-.share-post-box ul.share-box li a.twitter {
-  background: #18a3dd;
-}
-
-.share-post-box ul.share-box li a.google {
-  background: #f14133;
-}
-
-.share-post-box ul.share-box li a.google i {
-  margin-right: 0;
-}
-
-.share-post-box ul.share-box li a.linkedin {
-  background: #1879dd;
-}
-
-.share-post-box ul.share-box li a.linkedin i {
-  margin-right: 0;
-}
-
-.share-post-box ul.share-box li a:hover {
-  opacity: 0.7;
-}
 
 .lists {
   margin-left: 20px;
@@ -913,6 +845,87 @@ main.black {
 
 .lists .list i {
   color: #fff;
+}
+
+.share-box {
+  display: flex;
+  gap: 10px;
+  font-size: 15px;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color:#757575;
+  font-weight: 400;
+  margin:20px 0px;
+}
+
+.share-box i{
+  color: #757575;
+}
+
+.share-box i:hover{
+  color:#022b49;
+}
+
+.share-box ul{
+  display: flex;
+  gap: 10px;
+}
+
+.details-box{
+  padding: 30px;
+  border:1px solid rgb(228, 228, 228);
+  border-radius: 5px;
+}
+
+
+
+.price-box span{
+  font-size: 13px;
+}
+
+.price-box h4{
+  font-weight: 600;
+}
+
+.divider-dashed{
+      background: none;
+        border: dashed #dcdcdc;
+        border-width: 1px 0 0;
+        border-color: rgb(201, 204, 207);
+        margin:10px 0px;
+}
+
+.details-list li{
+  display: flex;
+  list-style: none;
+  gap: 10px;
+  font-size: 12px;
+  align-items: center;
+}
+
+.page_sides h2{
+  font-size: 16px;
+  color:rgb(99, 99, 99);
+}
+
+.btn-booking{
+  width: 100%;
+    height: 56px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #54c7d7;
+    background-color: #54c7d7;
+    transition: all 200ms ease-in-out 0s;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 0px;
+}
+
+.btn-booking:hover{
+  background-color: #40b6c5;
 }
 
 /*----------------------------------------*/
@@ -1566,6 +1579,7 @@ footer ul div a:hover {
 
   .sectionHeader a {
     font-size: 10px;
+    font-weight: 400;
   }
 
   .homeSlideText {
@@ -1671,8 +1685,7 @@ footer ul div a:hover {
 /* pages styles */
 
 .page_images{
-  float: left;
-  width: 60%;
+  width: 100%;
 }
 
 .page_images img{
@@ -1713,7 +1726,7 @@ footer ul div a:hover {
 
 .pageDetails {
   padding: 40px;
-  background-color: #f5f5f5;
+
   border-radius: 5px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
@@ -1727,6 +1740,54 @@ footer ul div a:hover {
   width: 100%;
   margin-bottom: 30px;
 }
+
+.pageTitle{
+  margin-bottom: 20px;
+}
+
+.detialsMore{
+  font-size: 12px;
+  cursor: pointer;
+  color:rgb(146, 146, 146);
+}
+
+.description{
+  position: relative;
+  width: 100%;
+  font-weight: 200;
+  height: 200px;
+  overflow: hidden;
+}
+
+.description.more{
+  height: auto;
+  overflow: auto;
+}
+
+.description:before {
+      content: ' ';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 90px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.0001) 1.31%, rgba(255, 255, 255, 0.721372) 15.41%, #fff 100%);
+        z-index: 5;
+}
+
+.description.more::before{
+  content: ' ';
+  background: none;
+}
+
+.desc-title{
+  display: flex;
+  width: 100%;
+  padding:10px 25px;
+  background-color: #fff;
+  margin:15px 0px;
+}
+
 
 /* service */
 

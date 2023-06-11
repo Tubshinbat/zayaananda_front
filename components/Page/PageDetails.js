@@ -18,21 +18,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faClock } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import base from "lib/base";
-import { htmlToText } from "html-to-text";
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
+import Share from "components/Share";
+import { useBookingContext } from "context/bookingContext";
+
 TimeAgo.addDefaultLocale(mn);
 TimeAgo.addLocale(en);
 
 const PageDetails = ({ page }) => {
-  const nf = new Intl.NumberFormat();
+  const [more, setMore] = useState(false);
+  const { setService, pushBooking } = useBookingContext();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleBooking = () => {
+    setService(page._id);
+    pushBooking("/booking");
+  };
 
   return (
     <>
       <div className="pageDetailsHeader">
         <div className="container">
+          <span> Zaya's ananda</span>
           <h2> {page.name} </h2>
         </div>
       </div>
@@ -40,8 +50,8 @@ const PageDetails = ({ page }) => {
         <div className="container">
           {page && (
             <div className="row">
-              <div className="col-lg-4">
-                <div className="page_sides">
+              <div className="col-lg-8">
+                <div className="page_detials">
                   <div className="page_images" style={{ width: "100%" }}>
                     {page.pictures && page.pictures.length === 1 && (
                       <img src={`${base.cdnUrl}/${page.pictures[0]}`} />
@@ -71,22 +81,51 @@ const PageDetails = ({ page }) => {
                       </Swiper>
                     )}
                   </div>
-                  <div className="page_price">
-                    Үйлчилгээний хөлс: {nf.format(page.price)}
-                  </div>
-                  <div className="page_booking_time">
-                    <h4> Цаг авах </h4>
+                  <Share shareUrl={base.baseUrl + "service/" + page._id} />
+                  <div className="desc-title"> Дэлгэрэнгүй </div>
+                  <div className="page_details">
+                    <div
+                      className={`description ${more === true && "more"}`}
+                      dangerouslySetInnerHTML={{
+                        __html: page.details,
+                      }}
+                    ></div>
+                    <p
+                      className="detialsMore"
+                      onClick={() =>
+                        setMore((bm) => {
+                          if (bm === true) {
+                            return false;
+                          } else return true;
+                        })
+                      }
+                    >
+                      {more === false ? "Цааш унших" : "Хураах"}
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-8">
-                <div className="page_details">
-                  <div
-                    className="description"
-                    dangerouslySetInnerHTML={{
-                      __html: page.details,
-                    }}
-                  ></div>
+              <div className="col-lg-4">
+                <div className="page_sides sticky-top">
+                  <div className="details-box">
+                    <div className="price-box">
+                      <span> Үндсэн үнэ: </span>
+                      <h4> {new Intl.NumberFormat().format(page.price)}₮ </h4>
+                    </div>
+                    <div className="divider-dashed"> </div>
+                    <div className="details-list">
+                      <li>
+                        <i className="fa fa-eye"></i>
+                        {page.views} хүн үзсэн
+                      </li>
+                    </div>
+                  </div>
+                  <button
+                    className="btn-booking"
+                    onClick={() => handleBooking()}
+                  >
+                    Цаг захиалах
+                  </button>
                 </div>
               </div>
             </div>

@@ -11,7 +11,7 @@ const HomeHeader = ({ services }) => {
           <div className="sectionHeader">
             <div className="sectionTitle">
               <p className="sectionSub"> Zaya's Ananda</p>
-              <h3 className="white">
+              <h3 className="">
                 Манай <span> үйлчилгээнүүд </span>
               </h3>
             </div>
@@ -22,14 +22,14 @@ const HomeHeader = ({ services }) => {
               services.map((service) => (
                 <div className="col-xl-4 col-lg-6">
                   <div className="service-item">
-                    <a href={`/services/${service._id}`}>
+                    <a href={`/service/${service._id}`}>
                       <div className="service-img">
                         {service.pictures && service.pictures[0] && (
                           <img src={`${base.cdnUrl}/${service.pictures[0]}`} />
                         )}
                       </div>
                     </a>
-                    <a href={`/services/${service._id}`}>
+                    <a href={`/service/${service._id}`}>
                       <h4>{service.name}</h4>
                     </a>
                     <p>

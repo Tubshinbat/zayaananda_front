@@ -9,6 +9,7 @@ import { getWebInfo } from "lib/webinfo";
 import { getMenus } from "lib/menus";
 import { getSocials } from "lib/socialLinks";
 import { CartProvider } from "context/cartContext";
+import { BookingProvider } from "context/bookingContext";
 
 export default async function RootLayout({ children }) {
 
@@ -26,8 +27,9 @@ export default async function RootLayout({ children }) {
         <CartProvider>
           <MenuProvider>
             <WebInfoProvider>
+              <BookingProvider>
               {children}
-             
+             </BookingProvider>
             </WebInfoProvider>
           </MenuProvider>
         </CartProvider>

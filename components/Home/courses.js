@@ -5,7 +5,7 @@ const Courses = ({ courses }) => {
     <>
       <section className="homeCourse">
         <div className="container">
-          <div className="sectionHeader">
+          <div className="sectionHeader dark">
             <div className="sectionTitle">
               <p className="sectionSub"> Zaya's Ananda</p>
               <h3 className="white">

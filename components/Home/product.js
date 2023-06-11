@@ -9,7 +9,7 @@ const Products = ({ products }) => {
           <div className="sectionHeader center">
             <div className="sectionTitle">
               <p className="sectionSub"> Zaya's Ananda</p>
-              <h3 className="white">
+              <h3 className="">
                 Манай <span> бүтээгдэхүүнүүд </span>
               </h3>
             </div>
