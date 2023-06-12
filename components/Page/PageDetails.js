@@ -14,28 +14,29 @@ import ReactTimeAgo from "react-time-ago";
 
 import en from "javascript-time-ago/locale/en.json";
 import mn from "javascript-time-ago/locale/mn.json";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBolt, faClock } from "@fortawesome/free-solid-svg-icons";
+
 import Link from "next/link";
 import base from "lib/base";
 
 import { useEffect, useState } from "react";
 import Share from "components/Share";
 import { useBookingContext } from "context/bookingContext";
+import { useRouter } from "next/navigation";
 
 TimeAgo.addDefaultLocale(mn);
 TimeAgo.addLocale(en);
 
 const PageDetails = ({ page }) => {
+  const router = useRouter();
   const [more, setMore] = useState(false);
-  const { setService, pushBooking } = useBookingContext();
+  const { setService } = useBookingContext();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const handleBooking = () => {
     setService(page._id);
-    pushBooking("/booking");
+    router.refresh("");
   };
 
   return (

@@ -15,6 +15,14 @@ import Footer from "components/Footer";
 import { getWebInfo } from "lib/webinfo";
 import { getMenus } from "lib/menus";
 import { getSocials } from "lib/socialLinks";
+import { Metadata } from 'next'
+
+export const metadata = {
+  title: '...',
+  description: '...',
+}
+ 
+
 
 export default async function Page() {
   const { banners, error } = await getBanners();
@@ -26,6 +34,8 @@ export default async function Page() {
   const { socialLinks } = await getSocials();
 
   return (
+    <>
+  
     <div>
       <main className="black">
         <Suspense fallback={<Loading />}>
@@ -41,5 +51,6 @@ export default async function Page() {
       </main>
       <Script src="/js/scripts.js" crossorigin="anonymous" />
     </div>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import { Suspense, use } from "react";
 import PageDetails from "components/Page/PageDetails";
 
 export default async function Page({ params: { id } }) {
+  
   const { service } = await getService(id);
   let data = {};
   if (!service) {
