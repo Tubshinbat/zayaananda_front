@@ -1,6 +1,8 @@
 const nextConfig = {
-  // reactStrictMode: true,
   // strictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   reactStrictMode: true,
   experimental: {
     appDir: true,

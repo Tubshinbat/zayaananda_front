@@ -1,5 +1,5 @@
 "use client";
-const { htmlToText } = require("html-to-text");
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import AOS from "aos";
 import {
@@ -8,10 +8,7 @@ import {
   Navigation,
   Scrollbar,
   Autoplay,
-  Lazy,
-  Virtual,
 } from "swiper";
-import Image from "next/image";
 
 import base from "lib/base";
 
@@ -25,28 +22,32 @@ import "swiper/css/autoplay";
 import "swiper/css/virtual";
 import css from "styles/banner.module.css";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRight,
-  faBolt,
-  faClock,
-  faPhoneVolume,
-} from "@fortawesome/free-solid-svg-icons";
+
 import TimeAgo from "javascript-time-ago";
-import ReactTimeAgo from "react-time-ago";
 
 import en from "javascript-time-ago/locale/en.json";
 import mn from "javascript-time-ago/locale/mn.json";
 TimeAgo.addDefaultLocale(mn);
 TimeAgo.addLocale(en);
 import { useState, useRef, useEffect } from "react";
+import { getBanners } from "lib/banners";
 
-const Slider = ({ banners }) => {
-  const [newsData, setNewsData] = useState([]);
-  const [color, setColor] = useState(banners[0].color || "#fff");
+const Slider = () => {
+  const [banners, setBanners] = useState([]);
+
+  const [color, setColor] = useState(
+    (banners && banners.length > 0 && banners[0].color) || "#fff"
+  );
   const videoEl = useRef();
 
   useEffect(() => {
+    const fetchBanner = async () => {
+      const { banners } = await getBanners();
+      setBanners(banners);
+    };
+
+    fetchBanner().catch((error) => console.log(error));
+
     window.onscroll = () => {
       let header = document.querySelector(".mainHeader");
       if (header) {
@@ -59,8 +60,11 @@ const Slider = ({ banners }) => {
       }
     };
     AOS.init();
-    if (videoEl && videoEl.current) videoEl.current.play();
   }, []);
+
+  useEffect(() => {
+    if (videoEl && videoEl.current) videoEl.current.play();
+  }, [banners]);
 
   return (
     <>
@@ -79,7 +83,7 @@ const Slider = ({ banners }) => {
           {banners &&
             banners.map((banner, index) => {
               return (
-                <SwiperSlide>
+                <SwiperSlide key={`banner_${index}`}>
                   <div
                     key={banner._id}
                     className={css.HomeSlideItem}
@@ -104,10 +108,10 @@ const Slider = ({ banners }) => {
                           <h2 style={{ color: color }}>{banner.name}</h2>
                           <p style={{ color: color }}> {banner.details}</p>
                           {banner.link && banner.link !== "undefined" && (
-                            <a className="slider-btn" href={banner.link}>
+                            <Link className="slider-btn" href={banner.link}>
                               {" "}
                               Дэлгэрэнгүй{" "}
-                            </a>
+                            </Link>
                           )}
                         </div>
                       </div>

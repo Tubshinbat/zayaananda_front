@@ -12,9 +12,9 @@ const renderMenu = (categories, child = false, parentSlug = "") => {
       myCategories.push(
         <li key={el._id} className={el.children.length > 0 && "dropMenu"}>
           {el.isDirect === true && (
-            <a href={el.direct} className="header-link">
+            <Link href={el.direct} className="header-link">
               {el.name}
-            </a>
+            </Link>
           )}
           {el.isModel === true && (
             <Link href={`/${el.model}`} className="header-link" scroll={false}>

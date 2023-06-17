@@ -1,6 +1,22 @@
-import base from "lib/base";
+"use client";
 
-const Courses = ({ courses }) => {
+import base from "lib/base";
+import { getCourses } from "lib/course";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+const Courses = () => {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const { courses } = await getCourses(`status=true&limit=3`);
+      setCourses(courses);
+    };
+
+    fetchCourses().catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <section className="homeCourse">
@@ -12,14 +28,14 @@ const Courses = ({ courses }) => {
                 Манай <span> сургалтууд </span>
               </h3>
             </div>
-            <a href="/course"> Бүх сургалтууд </a>
+            <Link href="/courses"> Бүх сургалтууд </Link>
           </div>
           <div className="row course-list">
             {courses &&
-              courses.map((course) => (
-                <div className="col-xl-4 col-lg-6">
+              courses.map((course, index) => (
+                <div className="col-xl-4 col-lg-6" key={`course_${index}`}>
                   <div className="courseBox">
-                    <a href={`/course/${course._id}`}>
+                    <Link href={`/course/${course._id}`}>
                       <div className="courseImg">
                         <div className="courseType">
                           {course.type === "local" ? "Танхим" : "Онлайн"}
@@ -28,11 +44,11 @@ const Courses = ({ courses }) => {
                           <img src={`${base.cdnUrl}/${course.pictures[0]}`} />
                         )}
                       </div>
-                    </a>
+                    </Link>
                     <div className="courseTitle">
-                      <a href={`/course/${course._id}`}>
+                      <Link href={`/course/${course._id}`}>
                         <h4>{course.name}</h4>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

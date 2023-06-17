@@ -1,9 +1,11 @@
 "use client";
+
 import base from "lib/base";
 
 const { useCartContext } = require("context/cartContext");
 const { useMenuContext } = require("context/menuContext");
 const { useWebInfoContext } = require("context/webinfoContext");
+import { useAuthContext } from "context/authContext";
 const { useEffect } = require("react");
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +15,7 @@ import Link from "next/link";
 const HomeHeader = () => {
   const { info, getInfo } = useWebInfoContext();
   const { menus, getMenu } = useMenuContext();
+  const { isUser } = useAuthContext();
   const { cart } = useCartContext();
 
   useEffect(() => {
@@ -22,18 +25,18 @@ const HomeHeader = () => {
 
   return (
     <>
-      <header className="mainHeader ">
+      <header className=" headerBlock">
         <div className="container">
           <div className="header">
             <div className="headerLeft">
               <div className="headerLogo">
                 {info.logo && (
-                  <Link href="/">
+                  <a href="/">
                     <img
                       src={`${base.cdnUrl}/${info.whiteLogo}`}
                       className="whiteLogo"
                     />
-                  </Link>
+                  </a>
                 )}
               </div>
               <div className="headerMid">

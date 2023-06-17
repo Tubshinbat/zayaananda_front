@@ -1,7 +1,21 @@
+"use client";
 import base from "lib/base";
+import { getProducts } from "lib/product";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const Products = ({ products }) => {
+const Products = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { products } = await getProducts(`status=true&limit=10`);
+      setProducts(products);
+    };
+
+    fetchProducts().catch((error) => console.log(error));
+  }, []);
+
   return (
     <>
       <section>
@@ -19,7 +33,7 @@ const Products = ({ products }) => {
               products.map((product, index) => (
                 <div
                   className=" col-lg-3 col-md-3 col-sm-4 col-6 col-md-2-5 "
-                  data-wow-delay={`${index * 0.2}s`}
+                  key={`product_${index}`}
                 >
                   <div className="productItem">
                     <Link href={`/product/${product._id}`}>
@@ -55,9 +69,9 @@ const Products = ({ products }) => {
                 </div>
               ))}
           </div>
-          <a href="/products" className="product-more-btn">
+          <Link href="/products" className="product-more-btn">
             Бүх бүтээгдэхүүндийг харах
-          </a>
+          </Link>
         </div>
       </section>
     </>
