@@ -2,12 +2,9 @@
 
 import React, {
   Button,
-  Card,
   Form,
   Input,
   InputNumber,
-  Space,
-  Typography,
 } from "antd";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 import Link from "next/link";
@@ -30,6 +27,9 @@ export default function Page() {
     loading,
     checkToken,
     notification,
+    forgetPassword,
+    isPassword, 
+    clear,
     phoneCheck,
     code,
   } = useAuthContext();
@@ -51,8 +51,12 @@ export default function Page() {
         phoneCheck({ phoneNumber });
       }
     }
-    if (code) {
-    }
+  };
+
+  const handleChangePassword = () => {
+    form.validateFields().then((values) => {
+      forgetPassword(values)
+    }).catch((error) => console.log(error))
   };
 
   useEffect(() => {
@@ -67,8 +71,6 @@ export default function Page() {
     }
   }, [isLogin]);
 
-  useEffect(() => {});
-
   useEffect(() => {
     toastControl("error", error);
   }, [error]);
@@ -82,6 +84,13 @@ export default function Page() {
       checkToken(cookies.zayatoken);
     }
   }, [cookies]);
+
+  useEffect(() => {
+    if(isPassword === true){
+      redirect('/login');
+      clear();
+    }
+  },[isPassword])
 
   return (
     <>
@@ -116,35 +125,98 @@ export default function Page() {
               />
             </Form.Item>
             {code === true && (
-              <Form.Item
-                className="loginInput"
-                name="otp"
-                rules={[
-                  {
-                    required: true,
-                    message: "Баталгаажуулах кодоо оруулна уу!",
-                  },
-                ]}
-              >
-                {" "}
-                <InputNumber
+              <>
+                <Form.Item
+                  className="loginInput"
+                  name="otp"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Баталгаажуулах кодоо оруулна уу!",
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    size="large"
+                    style={{ width: "100%", borderRadius: "2px" }}
+                    placeholder="Баталгаажуулах кодоо оруулна уу"
+                  />
+                </Form.Item>{" "}
+                <Form.Item
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Тус талбарыг заавал бөглөнө үү",
+                    },
+                  ]}
+                  className="loginInput"
+                  hasFeedback
+                >
+                  <Input.Password
+                    size="large"
+                    style={{ width: "100%", borderRadius: "2px" }}
+                    placeholder="Нууц үгээ оруулна уу"
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="confirm"
+                  dependencies={["password"]}
+                  className="loginInput"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Тус талбарыг заавал бөглөнө үү",
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("password") === value) {
+                          return Promise.resolve();
+                        }
+
+                        return Promise.reject(
+                          new Error(
+                            "Эхний оруулсан нууц үгтэй тохирохгүй байна!"
+                          )
+                        );
+                      },
+                    }),
+                  ]}
+                  hasFeedback
+                >
+                  <Input.Password
+                    size="large"
+                    style={{ width: "100%", borderRadius: "2px" }}
+                    placeholder="Нууц үгээ давтан оруулна уу"
+                  />
+                </Form.Item>
+              </>
+            )}
+            {code === false && (
+              <Form.Item className="login-btn-box">
+                <Button
                   size="large"
-                  style={{ width: "100%", borderRadius: "2px" }}
-                  placeholder="Баталгаажуулах кодоо оруулна уу"
-                />
+                  loading={loading}
+                  className="loginBtn"
+                  onClick={handleNext}
+                >
+                  Үргэлжлүүлэх
+                </Button>
               </Form.Item>
             )}
 
-            <Form.Item className="login-btn-box">
-              <Button
-                size="large"
-                loading={loading}
-                className="loginBtn"
-                onClick={handleNext}
-              >
-                Үргэлжлүүлэх
-              </Button>
-            </Form.Item>
+{code === true && (
+              <Form.Item className="login-btn-box">
+                <Button
+                  size="large"
+                  loading={loading}
+                  className="loginBtn"
+                  onClick={handleChangePassword}
+                >
+                  Нууц үгээ солих
+                </Button>
+              </Form.Item>
+            )}
           </Form>
           <ToastContainer
             position="top-right"

@@ -4,7 +4,7 @@ import base from "lib/base";
 
 const BookingCart = () => {
   const { serviceData } = useBookingContext();
-  console.log(serviceData);
+  
   if (serviceData)
     return (
       <div className="page_detials">

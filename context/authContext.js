@@ -34,11 +34,13 @@ export const AuthProvider = ({ children }) => {
   const [notification, setNotification] = useState(null);
   const [cookies, removeCookie] = useCookies(["zayatoken"]);
   const [code, setCode] = useState(false);
+  const [isPassword, setIsPassword ] = useState(false);
 
   const clear = () => {
     setLoading(false);
     setError(null);
     setNotification(null);
+    setIsPassword(false)
   };
 
   const getUser = (token) => {
@@ -62,7 +64,7 @@ export const AuthProvider = ({ children }) => {
     axios
       .post("users/login", data)
       .then((result) => {
-        setUserData(result.data.data);
+        setUserData(result.data.user);
         setNotification("Амжилттай нэвтэрлээ");
         setIsLogin(true);
       })
@@ -99,14 +101,20 @@ export const AuthProvider = ({ children }) => {
     clear();
   };
 
-  const forgetPassword = (phoneNumber) => {
+  const forgetPassword = (body) => {
     axios
-      .post("users/forgor-password", phoneNumber)
+      .post("users/reset-password", body)
       .then((result) => {
-        setNotification("Таны утасанд холбогдох баталгаажуулах код илгээллээ");
+        setNotification("Нууц үг амжилттай солигдлоо");
+        setIsPassword(true)
       })
       .catch((error) => setError(errorRender(error)));
+
+    clear();
   };
+
+
+  
 
   const logOut = () => {
     removeCookie("zayatoken");
@@ -122,6 +130,7 @@ export const AuthProvider = ({ children }) => {
       })
       .then((result) => {
         setIsLogin(true);
+        setUserData(result.data.user)
       })
       .catch((error) => {
         setIsLogin(false);
@@ -142,6 +151,8 @@ export const AuthProvider = ({ children }) => {
         isLogin,
         userData,
         notification,
+        isPassword, setIsPassword,
+        clear,
         getUser,
         checkToken,
         loginUser,

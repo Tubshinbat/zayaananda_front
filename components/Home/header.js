@@ -9,11 +9,13 @@ const { useEffect } = require("react");
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { useAuthContext } from "context/authContext";
 
 const HomeHeader = () => {
   const { info, getInfo } = useWebInfoContext();
   const { menus, getMenu } = useMenuContext();
   const { cart } = useCartContext();
+  const { userData } = useAuthContext();
 
   useEffect(() => {
     getInfo();
@@ -41,9 +43,17 @@ const HomeHeader = () => {
               </div>
             </div>
             <div className="headerButtons">
-              <Link href="/login">
-                <button className="user-btn">Хэрэглэгч</button>
-              </Link>
+              {!userData && (
+                <Link href="/login">
+                  <button className="user-btn">Хэрэглэгч</button>
+                </Link>
+              )}
+              {userData && (
+                <Link href="/userprofile">
+                  <button className="user-btn">{userData.firstName}</button>
+                </Link>
+              )}
+
               <button className="cart-btn">
                 <FontAwesomeIcon icon={faCartShopping} />
                 <span>{cart.length}</span>

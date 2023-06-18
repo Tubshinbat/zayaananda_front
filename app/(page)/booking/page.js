@@ -1,5 +1,5 @@
 "use client";
-import BookingCart from "components/Booking/bookingCart";
+import BookingCart from "components/Booking/BookingCart";
 import PaySide from "components/Booking/PaySide";
 import Loader from "components/Generals/Loader";
 import NotFound from "components/Service/notFound";

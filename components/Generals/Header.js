@@ -15,8 +15,10 @@ import Link from "next/link";
 const HomeHeader = () => {
   const { info, getInfo } = useWebInfoContext();
   const { menus, getMenu } = useMenuContext();
-  const { isUser } = useAuthContext();
+  const { userData } = useAuthContext();
   const { cart } = useCartContext();
+
+  console.log(userData);
 
   useEffect(() => {
     getInfo();
@@ -44,9 +46,16 @@ const HomeHeader = () => {
               </div>
             </div>
             <div className="headerButtons">
-              <Link href="/login">
-                <button className="user-btn">Хэрэглэгч</button>
-              </Link>
+            {!userData && (
+                <Link href="/login">
+                  <button className="user-btn">Хэрэглэгч</button>
+                </Link>
+              )}
+              {userData && (
+                <Link href="/userprofile">
+                  <button className="user-btn">{userData.firstName}</button>
+                </Link>
+              )}
               <button className="cart-btn">
                 <FontAwesomeIcon icon={faCartShopping} />
                 <span>{cart.length}</span>

@@ -7,11 +7,6 @@ import { getServices } from "lib/services";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 
-export const metadata = {
-  title: `Үйлчилгээнүүд - Zaya's ananda centre`,
-  description: "Үйлчилгээ - Zaya's ananda centre",
-};
-
 export default function Page() {
   const [menu, setMenu] = useState(null);
   const [services, setServices] = useState([]);

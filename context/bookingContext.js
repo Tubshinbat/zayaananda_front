@@ -6,7 +6,7 @@ const BookingContext = createContext({});
 
 export const BookingProvider = ({ children }) => {
   const [service, setService] = useState(null);
-  const [serviceData, setServiceData] = useState({});
+  const [serviceData, setServiceData] = useState(null);
   const [booking, setBooking] = useState({});
 
   useEffect(() => {
