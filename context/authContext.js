@@ -148,6 +148,7 @@ export const AuthProvider = ({ children }) => {
   const logOut = () => {
     removeCookie("zayatoken");
     setIsLogin(false);
+    setUserData(null);
     clear();
   };
 

@@ -26,11 +26,13 @@ const errorRender = (error) => {
 
 export const BookingProvider = ({ children }) => {
   const [service, setService] = useState(null);
+  const [notification, setNotification] = useState(null);
   const [serviceData, setServiceData] = useState(null);
   const [booking, setBooking] = useState({});
   const [verfiBooking, SetVerfiBooking] = useState(false);
   const [error, setError] = useState(null);
   const [bookingData, setBookingData] = useState(null);
+  const [isBooking, setIsBooking] = useState(false);
 
   const clear = () => {
     setError(null);
@@ -38,16 +40,30 @@ export const BookingProvider = ({ children }) => {
     setBooking({});
     setBookingData(null);
     setServiceData(null);
-  }
+    setIsBooking(false);
+  };
+
+  const createBooking = (data) => {
+    axios
+      .post("bookings", data)
+      .then((result) => {
+        setNotification("Захиалга бүртгэгдлээ");
+        setBookingData(result.data.data);
+        setIsBooking(true);
+      })
+      .catch((error) => setError(errorRender(error)));
+  };
 
   const checkBooking = (data) => {
     axios
       .post("bookings/checkbooking", data)
       .then((result) => {
-        SetVerfiBooking(true)
+        SetVerfiBooking(true);
+        setBooking(data);
       })
       .catch((error) => {
         setError(errorRender(error));
+        SetVerfiBooking(false);
       });
   };
 
@@ -69,8 +85,14 @@ export const BookingProvider = ({ children }) => {
         serviceData,
         setBookingData,
         bookingData,
+        checkBooking,
         verfiBooking,
-        error
+        createBooking,
+        isBooking,
+        clear,
+        notification,
+        SetVerfiBooking,
+        error,
       }}
     >
       {children}

@@ -1136,11 +1136,16 @@ svg {
 }
 
 .booking_sub{
-  margin-bottom: 15px;
+  margin: 15px 0px;
 }
 
 .booking_sub h4{
   font-size: 14px;
+}
+
+.booking-details div{
+  padding:7px;
+  font-size: 13px;
 }
 
 /*----------------------------------------*/
@@ -2068,10 +2073,11 @@ footer ul div a:hover {
     180deg,
     rgba(255, 255, 255, 0.0001) 1.31%,
     rgba(255, 255, 255, 0.721372) 15.41%,
-    #fff 100%
+    #f8f8f8 100%
   );
   z-index: 5;
 }
+
 
 .description.more::before {
   content: " ";
@@ -2512,6 +2518,130 @@ footer ul div a:hover {
   background: #46c4d4;
 }
 
+.col-course-item{
+  width: 100%;
+}
+
+.col-course-picture{
+  width: 100%;
+}
+.col-course-picture img{
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-bottom: 15px;
+  transition: all 0.3s;
+}
+
+.col-course-picture img:hover {
+  transform: scale(1.020);
+}
+
+
+.col-course-details a h3,
+.col-course-details a {
+  font-size: 18px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(236, 236, 236);
+  transition: all 0.2s;
+}
+
+.col-course-details a:hover{
+  color:#008e9e;
+}
+
+.col-course-info{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.course-info{
+  flex: 0 0 50%;
+  padding:4px 0px;
+  font-size: 11px;
+  color:rgb(175, 175, 175);
+}
+
+.course-info i,
+.course-info svg{
+  margin-right: 4px;
+}
+
+.cover_video_box img{
+  width: 100%;
+}
+
+.cover_video_box{
+  margin-bottom: 30px;
+}
+
+.video-infos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap:20px;
+  color:rgb(126, 126, 126);
+  font-size: 14px;
+}
+
+.video-info-item{
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.video-info-item i,
+.video-info-item svg{
+  font-size: 12px;
+  width: 12px;
+}
+
+.online-course-list{
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 16px;
+    overflow: hidden;
+}
+
+.online-course-list-header{
+  border-bottom: 1px solid rgb(236, 236, 236);
+  padding:20px;
+}
+
+.online-course-list-header h4{
+  font-size: 15px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.online-course-list li{
+  padding:15px 20px;
+  cursor: pointer;
+  list-style: none;
+  transition: all 0.3s;
+}
+
+.online-course-list li.active{
+  background-color: #e4fcff;
+  border-left:3px solid #0093a3;
+}
+
+.online-course-list li.active:hover{
+  background-color: #e4fcff;
+}
+
+.online-course-list li:hover{
+  background-color: rgb(236, 236, 236);
+}
+
+.cover_video_box video{
+  width: 100%;
+}
 
 
 @media (max-width: 767px) {

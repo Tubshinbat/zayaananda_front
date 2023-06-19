@@ -10,12 +10,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useAuthContext } from "context/authContext";
+import { useCookies } from "react-cookie";
 
 const HomeHeader = () => {
   const { info, getInfo } = useWebInfoContext();
   const { menus, getMenu } = useMenuContext();
   const { cart } = useCartContext();
-  const { userData } = useAuthContext();
+  const { userData, checkToken } = useAuthContext();
+
+  const [cookies] = useCookies(["zayatoken"]);
+
+  useEffect(() => {
+    if (
+      cookies.zayatoken !== undefined &&
+      cookies.zayatoken !== null &&
+      cookies.zayatoken !== "undefined" &&
+      cookies.zayatoken
+    ) {
+      checkToken(cookies.zayatoken);
+    }
+  }, [cookies]);
 
   useEffect(() => {
     getInfo();
