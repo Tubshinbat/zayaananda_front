@@ -33,14 +33,46 @@ export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [notification, setNotification] = useState(null);
   const [cookies, removeCookie] = useCookies(["zayatoken"]);
+  const [isChange, setIsChange] = useState(false);
   const [code, setCode] = useState(false);
-  const [isPassword, setIsPassword ] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
 
   const clear = () => {
     setLoading(false);
     setError(null);
     setNotification(null);
-    setIsPassword(false)
+    setIsPassword(false);
+    setIsChange(false);
+  };
+
+  const userChangePassword = (data) => {
+    setLoading(true);
+    axios
+      .post("users/userdata", data)
+      .then((res) => {
+        setUserData(res.data.data);
+        setLoading(false);
+        setIsChange(true);
+      })
+      .catch((error) => {
+        setError(errorRender(error));
+      });
+    clear();
+  };
+
+  const userInfoChange = (values) => {
+    setLoading(true);
+    axios
+      .put("users/userdata", values)
+      .then((res) => {
+        setUserData(res.data.data);
+        setLoading(false);
+        setIsChange(true);
+      })
+      .catch((error) => {
+        setError(errorRender(error));
+      });
+    clear();
   };
 
   const getUser = (token) => {
@@ -106,15 +138,12 @@ export const AuthProvider = ({ children }) => {
       .post("users/reset-password", body)
       .then((result) => {
         setNotification("Нууц үг амжилттай солигдлоо");
-        setIsPassword(true)
+        setIsPassword(true);
       })
       .catch((error) => setError(errorRender(error)));
 
     clear();
   };
-
-
-  
 
   const logOut = () => {
     removeCookie("zayatoken");
@@ -130,7 +159,7 @@ export const AuthProvider = ({ children }) => {
       })
       .then((result) => {
         setIsLogin(true);
-        setUserData(result.data.user)
+        setUserData(result.data.user);
       })
       .catch((error) => {
         setIsLogin(false);
@@ -151,14 +180,19 @@ export const AuthProvider = ({ children }) => {
         isLogin,
         userData,
         notification,
-        isPassword, setIsPassword,
+        isPassword,
+        setIsPassword,
         clear,
         getUser,
         checkToken,
         loginUser,
         userRegister,
+        userChangePassword,
+        userInfoChange,
+        isChange,
         setIsLogin,
         forgetPassword,
+        logOut,
         phoneCheck,
         code,
       }}

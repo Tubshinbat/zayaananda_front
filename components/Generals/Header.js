@@ -18,8 +18,6 @@ const HomeHeader = () => {
   const { userData } = useAuthContext();
   const { cart } = useCartContext();
 
-  console.log(userData);
-
   useEffect(() => {
     getInfo();
     getMenu();
@@ -46,7 +44,7 @@ const HomeHeader = () => {
               </div>
             </div>
             <div className="headerButtons">
-            {!userData && (
+              {!userData && (
                 <Link href="/login">
                   <button className="user-btn">Хэрэглэгч</button>
                 </Link>

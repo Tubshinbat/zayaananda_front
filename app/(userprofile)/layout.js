@@ -11,7 +11,11 @@ export default function RootLayout({ children }) {
   const [cookies] = useCookies(["zayatoken"]);
 
   useEffect(() => {
-    if (cookies.zayatoken) {
+    if (
+      cookies.zayatoken !== undefined &&
+      cookies.zayatoken !== null &&
+      cookies.zayatoken !== "undefined"
+    ) {
       checkToken(cookies.zayatoken);
     }
   }, [cookies]);

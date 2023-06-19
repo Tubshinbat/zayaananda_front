@@ -55,12 +55,6 @@ export default function Page() {
     }
   }, [notification]);
 
-  useEffect(() => {
-    if (cookies.zayatoken) {
-      checkToken(cookies.zayatoken);
-    }
-  }, [cookies]);
-
   return (
     <>
       <section>

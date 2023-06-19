@@ -905,6 +905,14 @@ svg {
   margin: 10px 0px;
 }
 
+.divider-dot{
+    background: none;
+      border: solid #f1f1f1;
+      border-width: 1px 0 0;
+      border-color: rgb(233, 233, 233);
+      margin: 20px 0px;
+}
+
 .details-list li {
   display: flex;
   list-style: none;
@@ -1117,6 +1125,22 @@ svg {
 .service-list li span {
   font-size: 13px;
   font-weight: bold;
+}
+
+.page_detials_sub{
+  margin:20px 0px;
+}
+
+.page_detials_sub h4{
+  font-size: 16px;
+}
+
+.booking_sub{
+  margin-bottom: 15px;
+}
+
+.booking_sub h4{
+  font-size: 14px;
 }
 
 /*----------------------------------------*/
@@ -2413,6 +2437,82 @@ footer ul div a:hover {
   object-position: center center;
   width: 90px;
 }
+
+.profile .username{
+  margin-bottom: 0px;
+}
+
+.profile a{
+  font-size: 13px;
+  color:rgb(156, 156, 156);
+}
+
+.profile-details{
+  transition: all 0.3s;
+}
+
+.profile-details i,
+.profile-details svg{
+  font-size: 25px;
+  width: 25px;
+  margin-bottom: 15px;
+}
+
+.profile-details span{
+  font-size: 13px;
+  color:rgb(141, 141, 141);
+}
+
+.profile-details:hover{
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 16px;
+}
+
+.profile-card-header h6{
+  font-size: 20px;
+  margin-bottom: 0px;
+}
+
+.profile-card-header span{
+  font-size: 13px;
+  color:rgb(179, 178, 178);
+}
+
+.profile-card-footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top:10px;
+}
+
+.back-btn{
+  border-radius: 5px;
+  background: none;
+  border:2px solid rgb(193 193 193);
+  padding:10px 30px;
+  transition: all 0.3s;
+  font-size: 14px;
+}
+
+.back-btn:hover{
+  background:rgb(238, 238, 238);
+}
+
+.change-btn{
+  border-radius: 5px;
+    background: #54c7d7;
+    border: 2px solid #46c4d4;
+    padding: 10px 34px;
+    transition: all 0.3s;
+    color:#fff;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.change-btn:hover{
+  background: #46c4d4;
+}
+
+
 
 @media (max-width: 767px) {
   .productImage {

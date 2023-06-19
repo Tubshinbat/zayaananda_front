@@ -51,12 +51,6 @@ export default function Page() {
     toastControl("success", notification);
   }, [notification]);
 
-  useEffect(() => {
-    if (cookies.zayatoken) {
-      checkToken(cookies.zayatoken);
-    }
-  }, [cookies]);
-
   return (
     <>
       <section>

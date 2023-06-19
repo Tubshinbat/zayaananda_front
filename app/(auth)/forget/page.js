@@ -1,11 +1,6 @@
 "use client";
 
-import React, {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-} from "antd";
+import React, { Button, Form, Input, InputNumber } from "antd";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useAuthContext } from "context/authContext";
@@ -28,7 +23,7 @@ export default function Page() {
     checkToken,
     notification,
     forgetPassword,
-    isPassword, 
+    isPassword,
     clear,
     phoneCheck,
     code,
@@ -54,9 +49,12 @@ export default function Page() {
   };
 
   const handleChangePassword = () => {
-    form.validateFields().then((values) => {
-      forgetPassword(values)
-    }).catch((error) => console.log(error))
+    form
+      .validateFields()
+      .then((values) => {
+        forgetPassword(values);
+      })
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -80,17 +78,11 @@ export default function Page() {
   }, [notification]);
 
   useEffect(() => {
-    if (cookies.zayatoken) {
-      checkToken(cookies.zayatoken);
-    }
-  }, [cookies]);
-
-  useEffect(() => {
-    if(isPassword === true){
-      redirect('/login');
+    if (isPassword === true) {
+      redirect("/login");
       clear();
     }
-  },[isPassword])
+  }, [isPassword]);
 
   return (
     <>
@@ -205,7 +197,7 @@ export default function Page() {
               </Form.Item>
             )}
 
-{code === true && (
+            {code === true && (
               <Form.Item className="login-btn-box">
                 <Button
                   size="large"
