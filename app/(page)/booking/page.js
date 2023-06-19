@@ -18,7 +18,7 @@ import NotFound from "components/Service/notFound";
 import { useAuthContext } from "context/authContext";
 import { useBookingContext } from "context/bookingContext";
 import base from "lib/base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Suspense } from "react";
 
 export default function Page() {
@@ -52,12 +52,18 @@ export default function Page() {
       const data = {
         ...values,
         service: serviceData._id,
-        userId: userData._id,
+        userId: userData && userData._id,
       };
 
       setBookingData(data);
     });
   };
+
+  useEffect(() => {
+    if(userData){
+      form.setFieldsValue({...userData});
+    }
+  },[userData])
 
   if (!serviceData) {
     return <NotFound />;

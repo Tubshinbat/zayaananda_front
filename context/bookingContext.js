@@ -28,13 +28,24 @@ export const BookingProvider = ({ children }) => {
   const [service, setService] = useState(null);
   const [serviceData, setServiceData] = useState(null);
   const [booking, setBooking] = useState({});
+  const [verfiBooking, SetVerfiBooking] = useState(false);
   const [error, setError] = useState(null);
   const [bookingData, setBookingData] = useState(null);
+
+  const clear = () => {
+    setError(null);
+    SetVerfiBooking(false);
+    setBooking({});
+    setBookingData(null);
+    setServiceData(null);
+  }
 
   const checkBooking = (data) => {
     axios
       .post("bookings/checkbooking", data)
-      .then((result) => {})
+      .then((result) => {
+        SetVerfiBooking(true)
+      })
       .catch((error) => {
         setError(errorRender(error));
       });
@@ -58,6 +69,8 @@ export const BookingProvider = ({ children }) => {
         serviceData,
         setBookingData,
         bookingData,
+        verfiBooking,
+        error
       }}
     >
       {children}
