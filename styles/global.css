@@ -948,14 +948,14 @@ svg {
   padding: 70px 0;
 }
 
-.login_page h4{
+.login_page h4 {
   margin-bottom: 20px;
   letter-spacing: -1px;
   font-weight: 600;
   font-size: 22px;
 }
 
-.login_page .loginInput{
+.login_page .loginInput {
   border-radius: 0px;
   margin-bottom: 30px;
 }
@@ -977,50 +977,50 @@ svg {
   justify-content: center;
   width: 100%;
   background-color: #009cad;
-  border:2px solid #0093a3;
+  border: 2px solid #0093a3;
   color: #fff;
   border-radius: 2px;
   font-size: 14px;
   transition: all 0.3s;
 }
 
-.login-btn-box{
+.login-btn-box {
   margin-bottom: 5px;
 }
 
-.registerBtn{
+.registerBtn {
   display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .registerBtn.ant-btn-lg {
-border-radius: 2px;
+  border-radius: 2px;
 }
 
-.loginBtn.ant-btn-lg{
-      height: 40px;
-        padding: 6.4px 15px;
-        font-size: 16px;
-        border-radius: 2px;
+.loginBtn.ant-btn-lg {
+  height: 40px;
+  padding: 6.4px 15px;
+  font-size: 16px;
+  border-radius: 2px;
 }
 
 .loginBtn:hover {
   background-color: #008e9e !important;
-    border: 2px solid #009cad !important;
-    color:#fff !important;
+  border: 2px solid #009cad !important;
+  color: #fff !important;
 }
 
-.login-page-register{
+.login-page-register {
   margin-bottom: 14px;
   display: flex;
   justify-content: flex-end;
 }
 
-.login-page-register a{
-  color:#008e9e;
-  padding:0px 5px;
+.login-page-register a {
+  color: #008e9e;
+  padding: 0px 5px;
 }
 
 /* Booking  */
@@ -2325,6 +2325,93 @@ footer ul div a:hover {
   .service-row-content h4 {
     width: 100%;
   }
+}
+
+/* userProfile */
+.users-side-menu {
+  width: 100%;
+  border-radius: 8px;
+  margin-right: 32px;
+  padding: 23px 23px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 16px;
+}
+
+.user-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.user-menu li a {
+  display: flex;
+  flex-direction: row;
+  gap: 13px;
+  font-size: 12px;
+  align-items: center;
+}
+
+.user-menu li a i,
+.user-menu li a svg {
+  font-size: 15px;
+  width: 15px;
+}
+
+.user-menu span {
+  font-size: 12px;
+  color: #969595;
+  margin: 3px 0px;
+}
+
+.profile-box h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.pro-box {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: rgb(255, 255, 255);
+  transition: transform 0s ease 0s, box-shadow 0s ease 0s,
+    all 0.2s ease-in-out 0s;
+}
+
+.profile-info {
+  height: 274px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-info .profile {
+  flex: 1 1 0%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.profile-info .profile .pic {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 45px;
+  margin-bottom: 16px;
+  background-color: rgb(224, 224, 224);
+}
+
+.pic img {
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
+  width: 90px;
 }
 
 @media (max-width: 767px) {

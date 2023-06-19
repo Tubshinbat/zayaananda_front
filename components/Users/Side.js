@@ -1,3 +1,6 @@
+import { faClock, faUser } from "@fortawesome/free-regular-svg-icons";
+import { faBox, faBoxesAlt, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 const Side = () => {
@@ -5,15 +8,17 @@ const Side = () => {
     <div className="users-side-menu">
       <ul className="user-menu">
         <li>
-          <Link href="/userprofile"> Хувийн мэдээлэл </Link>
+          <Link href="/userprofile"><FontAwesomeIcon icon={faUser} /> Хувийн мэдээлэл </Link>
         </li>
         <span>Захиалга</span>
         <li>
-          <Link href="/userprofile/orders"> Захиалгууд </Link>
+          <Link href="/userprofile/orders"><FontAwesomeIcon icon={faBoxesAlt} /> Захиалгууд </Link>
         </li>
         <li>
-          <Link href="/userprofile/orders"> Цаг авалтууд </Link>
+          <Link href="/userprofile/orders"><FontAwesomeIcon icon={faClock} /> Цаг авалтууд </Link>
         </li>
+        <span></span>
+        <li><Link href="/logout"> <FontAwesomeIcon icon={faRightFromBracket} />Системээс гарах</Link></li>
       </ul>
     </div>
   );
