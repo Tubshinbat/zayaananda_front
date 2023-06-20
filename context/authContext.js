@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
   const [isChange, setIsChange] = useState(false);
   const [code, setCode] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const [isCourse, setIsCourse] = useState(false);
 
   const clear = () => {
     setLoading(false);
@@ -43,6 +44,7 @@ export const AuthProvider = ({ children }) => {
     setNotification(null);
     setIsPassword(false);
     setIsChange(false);
+    setIsCourse(false);
   };
 
   const userChangePassword = (data) => {
@@ -146,6 +148,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logOut = () => {
+    axios.get("users/logout").catch((error) => setError(errorRender(error)));
     removeCookie("zayatoken");
     setIsLogin(false);
     setUserData(null);
@@ -167,6 +170,20 @@ export const AuthProvider = ({ children }) => {
         logOut();
         setError(errorRender(error));
       });
+  };
+
+  const checkCourse = (courseId) => {
+    if (userData) {
+      axios
+        .get(`users/coursecheck?userId=${userData._id}&courseId=${courseId}`)
+        .then((result) => {
+          setIsCourse(true);
+          setLoading(true);
+        })
+        .catch((error) => setError(errorRender(error)));
+    } else {
+      clear();
+    }
   };
 
   useEffect(() => {
@@ -196,6 +213,8 @@ export const AuthProvider = ({ children }) => {
         logOut,
         phoneCheck,
         code,
+        checkCourse,
+        isCourse,
       }}
     >
       {children}

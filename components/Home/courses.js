@@ -32,27 +32,35 @@ const Courses = () => {
           </div>
           <div className="row course-list">
             {courses &&
-              courses.map((course, index) => (
-                <div className="col-xl-4 col-lg-6" key={`course_${index}`}>
-                  <div className="courseBox">
-                    <Link href={`/course/${course._id}`}>
-                      <div className="courseImg">
-                        <div className="courseType">
-                          {course.type === "local" ? "Танхим" : "Онлайн"}
+              courses.map((course, index) => {
+                let url = "";
+                if (course.type === "online") {
+                  url = `/online/${course._id}`;
+                } else {
+                  url = `/courses/${course._id}`;
+                }
+                return (
+                  <div className="col-xl-4 col-lg-6" key={`course_${index}`}>
+                    <div className="courseBox">
+                      <Link href={url}>
+                        <div className="courseImg">
+                          <div className="courseType">
+                            {course.type === "local" ? "Танхим" : "Онлайн"}
+                          </div>
+                          {course.pictures && course.pictures[0] && (
+                            <img src={`${base.cdnUrl}/${course.pictures[0]}`} />
+                          )}
                         </div>
-                        {course.pictures && course.pictures[0] && (
-                          <img src={`${base.cdnUrl}/${course.pictures[0]}`} />
-                        )}
-                      </div>
-                    </Link>
-                    <div className="courseTitle">
-                      <Link href={`/course/${course._id}`}>
-                        <h4>{course.name}</h4>
                       </Link>
+                      <div className="courseTitle">
+                        <Link href={url}>
+                          <h4>{course.name}</h4>
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
           </div>
         </div>
       </section>

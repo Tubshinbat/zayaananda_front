@@ -82,7 +82,7 @@ const ServiceDetails = ({ page }) => {
                       </Swiper>
                     )}
                   </div>
-                  <Share shareUrl={base.baseUrl + "service/" + page._id} />
+                  <Share shareUrl={base.baseUrl + "services/" + page._id} />
                   <div className="desc-title"> Дэлгэрэнгүй </div>
                   <div className="page_details">
                     <div
