@@ -14,6 +14,7 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Loader from "components/Generals/Loader";
+import PayModule from "components/Pay/payModule";
 import NotFound from "components/Service/notFound";
 import { useAuthContext } from "context/authContext";
 import { useBookingContext } from "context/bookingContext";
@@ -26,20 +27,23 @@ import { Suspense } from "react";
 export default function Page() {
   const {
     serviceData,
-    setBookingData,
+    setBooking,
     checkBooking,
     verfiBooking,
     error,
     SetVerfiBooking,
     createBooking,
     notification,
-    bookingData,
+    invoice,
+    booking,
+    qpay,
     isBooking,
-    clear,
   } = useBookingContext();
+
   const { userData } = useAuthContext();
   const [choiseDate, setChoiseDate] = useState();
   const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
 
   const requiredRule = {
     required: true,
@@ -53,8 +57,7 @@ export default function Page() {
   const choiseTimes = () => {
     const time = [];
 
-    let timeNow = new Date();
-    for (let i = 1; i <= 12; i++) {
+    for (let i = 9; i <= 18; i++) {
       time.push({
         label: i + ":00",
         value: i + ":00",
@@ -71,15 +74,19 @@ export default function Page() {
         service: serviceData._id,
         userId: userData && userData._id,
         date: choiseDate,
+        paidAdvance: serviceData.price * 0.2,
       };
 
-      setBookingData(data);
+      setBooking(data);
       checkBooking(data);
     });
   };
 
   const handlePay = () => {
-    createBooking(bookingData);
+    if (isBooking === false) {
+      createBooking(booking);
+    }
+    setVisible((bf) => (bf === true ? false : true));
   };
 
   const handleBack = () => {
@@ -111,7 +118,7 @@ export default function Page() {
 
   useEffect(() => {
     if (isBooking === true) {
-      redirect(`/userprofile/booking/${bookingData._id}`);
+      setVisible(true);
     }
   }, [isBooking]);
 
@@ -231,35 +238,35 @@ export default function Page() {
                         </Form>
                       )}
 
-                      {verfiBooking === true && bookingData && (
+                      {verfiBooking === true && booking && (
                         <div className="row booking-details">
                           <div className="col-md-6">
                             <labe> Сонгосон өдөр: </labe>
-                            {bookingData.date}
+                            {booking.date}
                           </div>
 
                           <div className="col-md-6">
                             <labe> Сонгосон цаг: </labe>
-                            {bookingData.time}
+                            {booking.time}
                           </div>
                           <div className="col-md-12">
                             <labe> Нэмэлт тайлбар: </labe>
-                            {bookingData.bookingMsg}
+                            {booking.bookingMsg}
                           </div>
                           <div className="booking_sub">
                             <h4> Хувийн мэдээлэл </h4>
                           </div>
                           <div className="col-md-6">
                             <labe> Захиалга өгсөн нэр: </labe>
-                            {bookingData.firstName}
+                            {booking.firstName}
                           </div>
                           <div className="col-md-6">
                             <labe> Овог нэр: </labe>
-                            {bookingData.lastName}
+                            {booking.lastName}
                           </div>
                           <div className="col-md-6">
                             <labe> Утасны дугаар: </labe>
-                            {bookingData.phoneNumber}
+                            {booking.phoneNumber}
                           </div>
                         </div>
                       )}
@@ -324,6 +331,9 @@ export default function Page() {
             </Suspense>
           </div>
         </section>
+        {visible === true && (
+          <PayModule visible={visible} invoice={invoice} qpay={qpay} />
+        )}
       </>
     );
   }

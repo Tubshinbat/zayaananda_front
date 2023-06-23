@@ -28,6 +28,10 @@ section {
   display: flex !important;
 }
 
+.displayOn{
+  display: block;
+}
+
 a {
   color: #000;
   transition: 0s;
@@ -65,8 +69,6 @@ body {
 main.black {
   background: rgb(241, 241, 241) !important;
 }
-
-
 
 /* Section  */
 
@@ -903,12 +905,12 @@ main.black {
   margin: 10px 0px;
 }
 
-.divider-dot{
-    background: none;
-      border: solid #f1f1f1;
-      border-width: 1px 0 0;
-      border-color: rgb(233, 233, 233);
-      margin: 20px 0px;
+.divider-dot {
+  background: none;
+  border: solid #f1f1f1;
+  border-width: 1px 0 0;
+  border-color: rgb(233, 233, 233);
+  margin: 20px 0px;
 }
 
 .details-list li {
@@ -1125,24 +1127,24 @@ main.black {
   font-weight: bold;
 }
 
-.page_detials_sub{
-  margin:20px 0px;
+.page_detials_sub {
+  margin: 20px 0px;
 }
 
-.page_detials_sub h4{
+.page_detials_sub h4 {
   font-size: 16px;
 }
 
-.booking_sub{
+.booking_sub {
   margin: 15px 0px;
 }
 
-.booking_sub h4{
+.booking_sub h4 {
   font-size: 14px;
 }
 
-.booking-details div{
-  padding:7px;
+.booking-details div {
+  padding: 7px;
   font-size: 13px;
 }
 
@@ -2076,7 +2078,6 @@ footer ul div a:hover {
   z-index: 5;
 }
 
-
 .description.more::before {
   content: " ";
   background: none;
@@ -2161,6 +2162,7 @@ footer ul div a:hover {
   display: flex;
   flex-direction: column;
   border: 1px solid #1fa0b133;
+  margin-bottom: 30px;
 }
 
 .service-col-img {
@@ -2442,88 +2444,88 @@ footer ul div a:hover {
   width: 90px;
 }
 
-.profile .username{
+.profile .username {
   margin-bottom: 0px;
 }
 
-.profile a{
+.profile a {
   font-size: 13px;
-  color:rgb(156, 156, 156);
+  color: rgb(156, 156, 156);
 }
 
-.profile-details{
+.profile-details {
   transition: all 0.3s;
 }
 
 .profile-details i,
-.profile-details svg{
+.profile-details svg {
   font-size: 25px;
   width: 25px;
   margin-bottom: 15px;
 }
 
-.profile-details span{
+.profile-details span {
   font-size: 13px;
-  color:rgb(141, 141, 141);
+  color: rgb(141, 141, 141);
 }
 
-.profile-details:hover{
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 16px;
+.profile-details:hover {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 16px;
 }
 
-.profile-card-header h6{
+.profile-card-header h6 {
   font-size: 20px;
   margin-bottom: 0px;
 }
 
-.profile-card-header span{
+.profile-card-header span {
   font-size: 13px;
-  color:rgb(179, 178, 178);
+  color: rgb(179, 178, 178);
 }
 
-.profile-card-footer{
+.profile-card-footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top:10px;
+  margin-top: 10px;
 }
 
-.back-btn{
+.back-btn {
   border-radius: 5px;
   background: none;
-  border:2px solid rgb(193 193 193);
-  padding:10px 30px;
+  border: 2px solid rgb(193 193 193);
+  padding: 10px 30px;
   transition: all 0.3s;
   font-size: 14px;
 }
 
-.back-btn:hover{
-  background:rgb(238, 238, 238);
+.back-btn:hover {
+  background: rgb(238, 238, 238);
 }
 
-.change-btn{
+.change-btn {
   border-radius: 5px;
-    background: #54c7d7;
-    border: 2px solid #46c4d4;
-    padding: 10px 34px;
-    transition: all 0.3s;
-    color:#fff;
-    font-size: 14px;
-    transition: all 0.3s;
+  background: #54c7d7;
+  border: 2px solid #46c4d4;
+  padding: 10px 34px;
+  transition: all 0.3s;
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.3s;
 }
 
-.change-btn:hover{
+.change-btn:hover {
   background: #46c4d4;
 }
 
-.col-course-item{
+.col-course-item {
   width: 100%;
 }
 
-.col-course-picture{
+.col-course-picture {
   width: 100%;
 }
-.col-course-picture img{
+.col-course-picture img {
   width: 100%;
   border-top-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -2532,9 +2534,8 @@ footer ul div a:hover {
 }
 
 .col-course-picture img:hover {
-  transform: scale(1.020);
+  transform: scale(1.02);
 }
-
 
 .col-course-details a h3,
 .col-course-details a {
@@ -2545,33 +2546,33 @@ footer ul div a:hover {
   transition: all 0.2s;
 }
 
-.col-course-details a:hover{
-  color:#008e9e;
+.col-course-details a:hover {
+  color: #008e9e;
 }
 
-.col-course-info{
+.col-course-info {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.course-info{
+.course-info {
   flex: 0 0 50%;
-  padding:4px 0px;
+  padding: 4px 0px;
   font-size: 11px;
-  color:rgb(175, 175, 175);
+  color: rgb(175, 175, 175);
 }
 
 .course-info i,
-.course-info svg{
+.course-info svg {
   margin-right: 4px;
 }
 
-.cover_video_box img{
+.cover_video_box img {
   width: 100%;
 }
 
-.cover_video_box{
+.cover_video_box {
   margin-bottom: 30px;
 }
 
@@ -2579,12 +2580,12 @@ footer ul div a:hover {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap:20px;
-  color:rgb(126, 126, 126);
+  gap: 20px;
+  color: rgb(126, 126, 126);
   font-size: 14px;
 }
 
-.video-info-item{
+.video-info-item {
   display: flex;
   flex-direction: row;
   gap: 8px;
@@ -2592,53 +2593,282 @@ footer ul div a:hover {
 }
 
 .video-info-item i,
-.video-info-item svg{
+.video-info-item svg {
   font-size: 12px;
   width: 12px;
 }
 
-.online-course-list{
+.online-course-list {
   display: flex;
   flex-direction: column;
   background-color: #fff;
   border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 16px;
-    overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 16px;
+  overflow: hidden;
 }
 
-.online-course-list-header{
+.online-course-list-header {
   border-bottom: 1px solid rgb(236, 236, 236);
-  padding:20px;
+  padding: 20px;
 }
 
-.online-course-list-header h4{
+.online-course-list-header h4 {
   font-size: 15px;
   margin: 0px;
   padding: 0px;
 }
 
-.online-course-list li{
-  padding:15px 20px;
+.online-course-list li {
+  padding: 15px 20px;
   cursor: pointer;
   list-style: none;
   transition: all 0.3s;
 }
 
-.online-course-list li.active{
+.online-course-list li.active {
   background-color: #e4fcff;
-  border-left:3px solid #0093a3;
+  border-left: 3px solid #0093a3;
 }
 
-.online-course-list li.active:hover{
+.online-course-list li.active:hover {
   background-color: #e4fcff;
 }
 
-.online-course-list li:hover{
+.online-course-list li:hover {
   background-color: rgb(236, 236, 236);
 }
 
-.cover_video_box video{
+.cover_video_box video {
   width: 100%;
+}
+
+/* pay modal */
+
+.pay-modal-mask {
+  background-color: rgba(0, 0, 0, 0.45);
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.payModal {
+  display: inline-block;
+  padding-bottom: 0;
+  text-align: left;
+  top: 0;
+  vertical-align: middle;
+  font-feature-settings: "tnum";
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.25;
+  list-style: none;
+  margin: 0 auto;
+  max-width: calc(100vw - 32px);
+  padding: 0 0 24px;
+  pointer-events: none;
+  position: relative;
+  width: 680px;
+}
+
+.payModal-content {
+  background-clip: padding-box;
+  background-color: #fff;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  pointer-events: auto;
+  position: relative;
+}
+
+.pay-modal-wrap {
+  bottom: 0;
+  left: 0;
+  outline: 0;
+  overflow: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.pay-modal-centered:before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0;
+}
+
+.pay-modal-centered {
+  text-align: center;
+}
+
+
+.modal-header {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  background: rgb(246, 246, 246);
+  padding: 24px 16px;
+}
+
+.modal-header .left-section {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.modal-header .left-section .modal-title{
+      margin-left: 12px;
+}
+
+.modal-header .left-section .modal-title h3 {
+  margin: 0px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(64, 64, 64);
+  margin-bottom: 5px;
+}
+
+.modal-header .left-section .modal-title .sub-title {
+  color: rgb(95, 115, 140);
+  font-size: 10px;
+  font-weight: normal;
+  text-align: center;
+}
+
+.payModal-body{
+      padding: 0px;
+        border-radius: 8px;
+        overflow: hidden;
+}
+
+.payModal-body .close {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out 0s;
+  position: absolute;
+  top: -30px;
+  right: 0px;
+  border:none;
+  background:none;
+  color:#fff;
+  font-size: 16px;
+  width: 16px;
+}
+
+.modal-content{
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  flex-direction: row;
+}
+
+.modal-content h5{
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.modal-content .qpay{
+  flex: 0 0 35%;
+  width: 35%;
+}
+
+.modal-content .banks{
+  flex: 0 1 65%;
+  width: 65%;
+}
+
+.modal-content .qpay img{
+  width: 100%;
+}
+
+.qpay-info{
+  margin:0px;
+  font-size: 12px;
+}
+
+.bank-invoice{
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.bank-invoice .item{
+  display: flex;
+  flex-direction: column;
+background-color: rgb(246, 246, 246);
+padding:10px 20px;
+}
+
+.item .sub{
+  font-size: 13px;
+  color:rgb(163, 163, 163);
+}
+
+.typography{
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-top:4px;
+  align-items: center;
+}
+
+.typography button{
+  border:none;
+  background-color: rgb(230, 230, 230);
+  padding:8px 10px;
+  border-radius: 4px;
+  color:rgb(146, 146, 146);
+}
+
+.typography button svg,
+.typography button i{
+  font-size: 12px;
+    width: 12px;
+}
+
+.banks-header{
+  display: flex;
+  width:100%;
+  flex-direction: row;
+  margin-bottom: 10px;
+  background-color: rgb(246, 246, 246);
+  border-radius:5px;
+}
+
+.tab-choise{
+  padding:8px 15px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tab-choise.active{
+  border-radius: 5px;
+  background-color: #008e9e;
+  color:#fff;
+}
+
+.qpay-btn{
+  width: 100%;
+  padding:10px 0px;
+  margin-top: 10px;
+  border:2px solid #ccc;
+  border-radius: 5px;
+  background: none;
 }
 
 

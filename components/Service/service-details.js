@@ -22,11 +22,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const ServiceDetails = ({ page }) => {
   const router = useRouter();
   const [more, setMore] = useState(false);
-  const { setService, clear } = useBookingContext();
+  const { setService, clear, init } = useBookingContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     clear();
+    init();
   }, []);
 
   const handleBooking = () => {

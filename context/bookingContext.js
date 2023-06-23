@@ -26,21 +26,32 @@ const errorRender = (error) => {
 
 export const BookingProvider = ({ children }) => {
   const [service, setService] = useState(null);
-  const [notification, setNotification] = useState(null);
   const [serviceData, setServiceData] = useState(null);
-  const [booking, setBooking] = useState({});
-  const [verfiBooking, SetVerfiBooking] = useState(false);
-  const [error, setError] = useState(null);
-  const [bookingData, setBookingData] = useState(null);
+
   const [isBooking, setIsBooking] = useState(false);
+  const [invoice, setInvoice] = useState(null);
+  const [qpay, setQpay] = useState(null);
+
+  const [verfiBooking, SetVerfiBooking] = useState(false);
+  const [booking, setBooking] = useState({});
+
+  // UI MESSAGES
+  const [error, setError] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   const clear = () => {
     setError(null);
-    SetVerfiBooking(false);
-    setBooking({});
-    setBookingData(null);
+    setNotification(null);
+  };
+
+  const init = () => {
+    setService(null);
     setServiceData(null);
     setIsBooking(false);
+    SetVerfiBooking(false);
+    setBooking({});
+    setInvoice(null);
+    setQpay(null);
   };
 
   const createBooking = (data) => {
@@ -48,10 +59,29 @@ export const BookingProvider = ({ children }) => {
       .post("bookings", data)
       .then((result) => {
         setNotification("Захиалга бүртгэгдлээ");
-        setBookingData(result.data.data);
+        setBooking(result.data.data);
+        const resultBooking = result.data.data;
+        const invoiceData = {
+          sender_invoice_no: `B${resultBooking.bookingNumber}`,
+          sender_branch_code: "booking",
+          invoice_receiver_code: resultBooking.phoneNumber,
+          invoice_description: `${resultBooking.phoneNumber} - дугаартай хэрэглэгч B${resultBooking.bookingNumber} - цаг захиалга хийлээ.`,
+          amount: resultBooking.paidAdvance,
+        };
+
+        axios
+          .post("payment/create", invoiceData)
+          .then((result) => {
+            setQpay(result.data.data);
+            console.log(result.data.data);
+            setInvoice(result.data.invoice);
+          })
+          .catch((error) => console.log(error));
+
         setIsBooking(true);
       })
       .catch((error) => setError(errorRender(error)));
+    clear();
   };
 
   const checkBooking = (data) => {
@@ -65,6 +95,7 @@ export const BookingProvider = ({ children }) => {
         setError(errorRender(error));
         SetVerfiBooking(false);
       });
+    clear();
   };
 
   useEffect(() => {
@@ -81,17 +112,18 @@ export const BookingProvider = ({ children }) => {
         booking,
         setBooking,
         setService,
+        invoice,
         service,
         serviceData,
-        setBookingData,
-        bookingData,
         checkBooking,
         verfiBooking,
         createBooking,
         isBooking,
+        qpay,
         clear,
         notification,
         SetVerfiBooking,
+        init,
         error,
       }}
     >
