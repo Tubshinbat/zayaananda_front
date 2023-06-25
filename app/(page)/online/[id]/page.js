@@ -9,12 +9,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "components/Generals/Loader";
 import NotFound from "components/Generals/Notfound";
 import Share from "components/Generals/Share";
-import { useAuthContext } from "context/authContext";
+
 import base from "lib/base";
 import { getCourse } from "lib/course";
 import { toastControl } from "lib/toastControl";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useAuthContext } from "context/authContext";
+import { usePayContext } from "context/payContext";
+import PayModule from "components/Pay/payModule";
 
 export default function Page({ params: { id } }) {
   const [course, setCourse] = useState(null);
@@ -22,7 +25,19 @@ export default function Page({ params: { id } }) {
   const [more, setMore] = useState(false);
   const [selectData, setSelectData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { isLogin, checkCourse, isCourse, clear, error } = useAuthContext();
+  const { isLogin, checkCourse, isCourse, clear, userData, setIsCourse } =
+    useAuthContext();
+  const {
+    createQpayAndInvoice,
+    invoice,
+    notification,
+    error,
+    visible,
+    setVisible,
+    qpay,
+    isPaid,
+  } = usePayContext();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -47,12 +62,45 @@ export default function Page({ params: { id } }) {
   }, []);
 
   useEffect(() => {
+    if (userData) {
+      checkCourse(id);
+    }
+  }, [userData]);
+
+  useEffect(() => {
     if (error) {
       toastControl("error", error);
     }
   }, [error]);
 
-  const payCourse = () => {};
+  useEffect(() => {
+    if (notification) {
+      toastControl("success", notification);
+    }
+  }, [notification]);
+
+  useEffect(() => {
+    if (isPaid === true) {
+      toastControl("success", "Сургалтыг идэвхжүүллээ .");
+      setIsCourse(true);
+      setVisible(false);
+    }
+  }, [isPaid]);
+
+  const payCourse = () => {
+    setVisible(true);
+    if (invoice === null) {
+      const data = {
+        sender_invoice_no: null,
+        sender_branch_code: "course",
+        invoice_description: `${userData.phoneNumber} хэрэглэгч ${course.name} төлбөр илгээв`,
+        amount: course.price,
+        course: course._id,
+        userId: userData._id,
+      };
+      createQpayAndInvoice(data);
+    }
+  };
 
   if (!course) {
     if (loading == true) {
@@ -180,6 +228,9 @@ export default function Page({ params: { id } }) {
             </div>
           </div>
         </section>
+        {visible === true && (
+          <PayModule visible={visible} invoice={invoice} qpay={qpay} />
+        )}
       </>
     );
   }

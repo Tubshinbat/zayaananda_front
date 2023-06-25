@@ -215,6 +215,7 @@ export const AuthProvider = ({ children }) => {
         code,
         checkCourse,
         isCourse,
+        setIsCourse,
       }}
     >
       {children}

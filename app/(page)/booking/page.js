@@ -18,6 +18,7 @@ import PayModule from "components/Pay/payModule";
 import NotFound from "components/Service/notFound";
 import { useAuthContext } from "context/authContext";
 import { useBookingContext } from "context/bookingContext";
+import { usePayContext } from "context/payContext";
 import base from "lib/base";
 import { toastControl } from "lib/toastControl";
 import { redirect } from "next/navigation";
@@ -41,9 +42,17 @@ export default function Page() {
   } = useBookingContext();
 
   const { userData } = useAuthContext();
+  const {
+    visible,
+    setVisible,
+    isPaid,
+    notification: noti,
+    error: err,
+  } = usePayContext();
+
   const [choiseDate, setChoiseDate] = useState();
   const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
+  const { isLogin } = useAuthContext();
 
   const requiredRule = {
     required: true,
@@ -109,12 +118,22 @@ export default function Page() {
   }, [verfiBooking]);
 
   useEffect(() => {
-    toastControl("error", error);
-  }, [error]);
+    toastControl("error", (error && error) || (err && err));
+  }, [error, err]);
 
   useEffect(() => {
-    toastControl("success", notification);
-  }, [notification]);
+    if (isPaid === true) {
+      if (isLogin === true) {
+        redirect("/userprofile/booking");
+      } else {
+        redirect("/");
+      }
+    }
+  }, [isPaid]);
+
+  useEffect(() => {
+    toastControl("success", (notification && notification) || (noti && noti));
+  }, [notification, noti]);
 
   useEffect(() => {
     if (isBooking === true) {

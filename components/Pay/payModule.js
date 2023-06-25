@@ -2,16 +2,43 @@
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios-base";
 import { useBookingContext } from "context/bookingContext";
 import { getBanks } from "lib/payment";
 import { toastControl } from "lib/toastControl";
+import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useAuthContext } from "context/authContext";
+import { usePayContext } from "context/payContext";
+
+const errorRender = (error) => {
+  let resError = "Алдаа гарлаа дахин оролдоно уу";
+
+  if (error.message) {
+    resError = error.message;
+  }
+
+  if (error.response !== undefined && error.response.status !== undefined) {
+    resError = error.response.status;
+  }
+  if (
+    error.response !== undefined &&
+    error.response.data !== undefined &&
+    error.response.data.error !== undefined
+  ) {
+    resError = error.response.data.error.message;
+  }
+  return resError;
+};
 
 const PayModule = (props) => {
-  const [visible, setVisible] = useState(false);
+  const { visible, setVisible, checkPayment, isPaid, invoice } =
+    usePayContext();
   const [banks, setBanks] = useState([]);
   const [acitveTab, setActiveTab] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const { isLogin } = useAuthContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,10 +49,30 @@ const PayModule = (props) => {
   }, []);
 
   useEffect(() => {
-    if (props.visible) {
-      setVisible(props.visible);
+    if (visible === true) {
+      setTimeout(() => {
+        paymentCheck();
+      }, 1000 * 18);
     }
-  }, [props.visible]);
+  }, [visible]);
+
+  const paymentCheck = () => {
+    setLoading(true);
+    if (props.invoice) {
+      checkPayment(props.invoice.sender_invoice_no);
+    }
+    if (invoice) {
+      checkPayment(invoice.sender_invoice_no);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (isPaid == true) {
+      toastControl("success", "Гүйлгээ амжилттай хийгдлээ");
+      setLoading(false);
+    }
+  }, [isPaid]);
 
   return (
     <>
@@ -48,6 +95,11 @@ const PayModule = (props) => {
                   <FontAwesomeIcon icon={faXmark} />
                 </button>
                 <div className="modal-body">
+                  {loading === true && (
+                    <div className="loader-box">
+                      <div class="loader">Loading...</div>
+                    </div>
+                  )}
                   <div className="modal-header">
                     <div className="left-section">
                       <div className="modal-title">
@@ -66,7 +118,12 @@ const PayModule = (props) => {
                           src={`data:image/png;base64,${props.qpay.qr_image}`}
                         />
                       )}
-                      <button className="qpay-btn"> Төлбөр шалгах </button>
+                      <button
+                        className="qpay-btn"
+                        onClick={() => paymentCheck()}
+                      >
+                        Төлбөр шалгах{" "}
+                      </button>
                     </div>
                     <div className="banks">
                       <h5>Дансаар шилжүүлэх</h5>
@@ -167,8 +224,11 @@ const PayModule = (props) => {
                     </div>
                   </div>
                   <div className="alert alert-warning qpay-info">
-                    Төлбөрөө төлсөн бол "ТӨЛБӨР ШАЛГАХ" товч дээр дарна уу. Жич:
-                    Төлсөн ч төлөөгүй гэсэн хариу өгч байвал дахин шалгаарай.
+                    Банкны дансаар шилжүүлсэн бол ажлын өдрүүдэд шалган
+                    баталгаажуулах болно <br />
+                    <br /> <strong> Qpay - ээр </strong>Төлбөрөө төлсөн бол
+                    "ТӨЛБӨР ШАЛГАХ" товч дээр дарна уу. Жич: Төлсөн ч төлөөгүй
+                    гэсэн хариу өгч байвал дахин шалгаарай.
                   </div>
                 </div>
               </div>

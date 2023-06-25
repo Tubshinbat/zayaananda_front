@@ -54,11 +54,11 @@ export const BookingProvider = ({ children }) => {
     setQpay(null);
   };
 
-  const createBooking = (data) => {
+  const createBooking = async (data) => {
+    await axios.get("payment");
     axios
       .post("bookings", data)
       .then((result) => {
-        setNotification("Захиалга бүртгэгдлээ");
         setBooking(result.data.data);
         const resultBooking = result.data.data;
         const invoiceData = {
@@ -73,7 +73,6 @@ export const BookingProvider = ({ children }) => {
           .post("payment/create", invoiceData)
           .then((result) => {
             setQpay(result.data.data);
-            console.log(result.data.data);
             setInvoice(result.data.invoice);
           })
           .catch((error) => console.log(error));

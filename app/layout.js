@@ -9,6 +9,7 @@ import { BookingProvider } from "context/bookingContext";
 import Footer from "components/Generals/Footer";
 import { AuthProvider } from "context/authContext";
 import { ToastContainer } from "react-toastify";
+import { PayProvider } from "context/payContext";
 
 export const metadata = {
   title: `Zaya's ananda centre`,
@@ -20,29 +21,31 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
-          <CartProvider>
-            <MenuProvider>
-              <WebInfoProvider>
-                <BookingProvider>
-                  {children}
-                  <Footer />
-                  <ToastContainer
-                    position="top-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                  />
-                </BookingProvider>
-              </WebInfoProvider>
-            </MenuProvider>
-          </CartProvider>
-        </AuthProvider>
+        <PayProvider>
+          <AuthProvider>
+            <CartProvider>
+              <MenuProvider>
+                <WebInfoProvider>
+                  <BookingProvider>
+                    {children}
+                    <Footer />
+                    <ToastContainer
+                      position="top-right"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                    />
+                  </BookingProvider>
+                </WebInfoProvider>
+              </MenuProvider>
+            </CartProvider>
+          </AuthProvider>
+        </PayProvider>
       </body>
     </html>
   );
