@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "components/Generals/Loader";
 import { htmlToText } from "html-to-text";
 import base from "lib/base";
+import { getMenu } from "lib/menus";
 import { getNews } from "lib/news";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -14,9 +15,11 @@ export default function Page() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({});
+  const [menu, setMenu] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
+      const { menu } = await getMenu(`direct=news`);
       const { news, pagination } = await getNews(`status=true`);
       setPagination(pagination);
       setData(news);
@@ -28,6 +31,19 @@ export default function Page() {
 
   return (
     <>
+      <div
+        className="pageDetailsHeader"
+        style={{
+          backgroundImage:
+            menu && menu.cover && menu.cover !== ""
+              ? `url("${base.cdnUrl}/${menu.cover}")`
+              : `/images/header.jpg`,
+        }}
+      >
+        <div className="container">
+          <h2> Зөвлөгөө </h2>
+        </div>
+      </div>
       <section>
         <div className="container">
           {loading === true && <Loader />}
@@ -76,12 +92,6 @@ export default function Page() {
                 (el, index) =>
                   index !== 0 && (
                     <>
-                      {index % 3 === 1 && (
-                        <>
-                          <div class="clearfix visible-md-block"></div>
-                          <div class="clearfix visible-sm-block"></div>
-                        </>
-                      )}
                       <div className="col-md-4">
                         <div className="news-item">
                           <div className="news-item-pic">

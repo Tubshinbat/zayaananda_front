@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "styles/global.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-image-gallery/styles/css/image-gallery.css";
 
 import { WebInfoProvider } from "context/webinfoContext";
 import { MenuProvider } from "context/menuContext";

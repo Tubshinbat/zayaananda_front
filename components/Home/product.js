@@ -69,7 +69,7 @@ const Products = () => {
                 </div>
               ))}
           </div>
-          <Link href="/products" className="product-more-btn">
+          <Link href="/shop" className="product-more-btn">
             Бүх бүтээгдэхүүндийг харах
           </Link>
         </div>

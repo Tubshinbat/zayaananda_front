@@ -726,6 +726,79 @@ main.black {
 }
 
 /* Product */
+
+.cartBtns{
+  display: flex;
+  gap: 20px;
+}
+
+.cartBtns button{
+  flex: 1 1 100%;
+}
+
+.cartBtns .btnCart{
+  height: 50px;
+    flex: 1 1 100%;
+    color: rgb(36, 36, 36);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 4px;
+    border: 1px solid rgb(188, 188, 188);
+    transition: all 200ms ease-in-out 0s;
+    background: none;
+}
+
+.cartBtns .btnBuy{
+  height: 50px;
+    flex: 1 1 100%;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 4px;
+    border: 1px solid rgb(188, 188, 188);
+    transition: all 200ms ease-in-out 0s;
+    background: #40b6c5;
+}
+
+.cartBtns .btnBuy:hover{
+  background: #309caa;
+}
+
+.cartBtns .btnCart:hover{
+  background: rgb(240, 240, 240);
+}
+
+.qty {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.qty p {
+  display: flex;
+  align-items: center;
+  margin: 0px;
+  background-color: rgb(224, 224, 224);
+  height: 40px;
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.qty input {
+  height: 40px;
+  border: 1px solid #ccc;
+  width: 80px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-left: 15px;
+  font-weight: 500;
+}
+
 .productItem {
   display: flex;
   position: relative;
@@ -1098,6 +1171,7 @@ main.black {
   padding: 20px;
   border-radius: 5px;
   gap: 20px;
+  margin-bottom: 20px;
 }
 
 .choise-service-detials {
@@ -1121,7 +1195,16 @@ main.black {
 }
 
 .choise-service-price {
+  display: flex;
+  flex-direction: row;
   font-weight: bold;
+  gap: 10px;
+}
+.remove-cart-item{
+  font-size: 12px;
+  font-weight: 400;
+  color:rgb(148, 7, 7);
+  cursor: pointer;
 }
 
 .choise-img {
@@ -1367,6 +1450,26 @@ main.black {
 
 .newsViewItem i {
   color: #022b49;
+}
+
+.news-container img {
+  max-width: 100%;
+}
+
+.news-box-header h2 {
+  color: rgb(70, 70, 70);
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.news-box-header .news-item-info {
+  margin-top: 0px;
+}
+
+.news-item-img {
+  margin-bottom: 30px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 /* footer */
@@ -2939,35 +3042,35 @@ footer ul div a:hover {
 
 .starTitle {
   width: 100%;
-  
+
   margin-bottom: 6px;
   line-height: 103% !important;
   text-align: center;
 }
 
-.starTitle a{
+.starTitle a {
   font-size: 40px;
   width: 80%;
-  color:#505050;
+  color: #505050;
   font-weight: 300;
-  margin:0 auto;
+  margin: 0 auto;
   margin-bottom: 20px;
 }
 
 .starInfo,
-.news-item-info{
-  display:flex;
+.news-item-info {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
   color: #8d8d8d !important;
   margin-bottom: 20px;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 .starInfoItem,
-.news-item-info-item{
+.news-item-info-item {
   display: flex;
   gap: 5px;
   align-items: center;
@@ -2975,54 +3078,59 @@ footer ul div a:hover {
   font-size: 11px;
 }
 
-.news-item-info{
+.news-item-info {
   justify-content: flex-start;
 }
 
 .starInfoItem svg,
-.starInfoItem i{
+.starInfoItem i {
   font-size: 11px;
 }
 
-.starImage{
+.starImage {
   height: 500px;
   overflow: hidden;
   border-radius: 20px;
   margin-bottom: 30px;
 }
 
-.starImage img{
+.starImage img {
   width: 100%;
 }
 
-.starDetails{
+.starDetails {
   width: 80%;
   margin: 0 auto;
   text-align: center;
 }
 
-
-.news-item .title a h4{
-    color:#505050;
-    font-weight: 400;
-    margin-bottom: 10px;
-    font-size: 20px;
+.news-item .title a h4 {
+  color: #505050;
+  font-weight: 400;
+  margin-bottom: 10px;
+  font-size: 20px;
 }
 
-.news-item-details{
+.news-item-details {
   font-size: 14px;
   line-height: 22px;
-  color:rgb(138, 137, 137);
+  color: rgb(138, 137, 137);
 }
 
-.news-item-pic{
-  border-radius:20px;
+.news-item-pic {
+  border-radius: 20px;
   overflow: hidden;
   margin-bottom: 30px;
 }
 
-.news-item-pic img{ 
+.news-item-pic img {
   width: 100%;
+}
+
+@media (min-width: 900px) {
+  .news-container {
+    width: 850px;
+  }
 }
 
 @media (max-width: 767px) {

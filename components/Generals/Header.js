@@ -20,7 +20,6 @@ const HomeHeader = () => {
   const { cart } = useCartContext();
   const [cookies] = useCookies(["zayatoken"]);
 
-
   useEffect(() => {
     if (
       cookies.zayatoken !== undefined &&
@@ -30,8 +29,6 @@ const HomeHeader = () => {
       checkToken(cookies.zayatoken);
     }
   }, [cookies]);
-
- 
 
   useEffect(() => {
     getInfo();
@@ -69,10 +66,12 @@ const HomeHeader = () => {
                   <button className="user-btn">{userData.firstName}</button>
                 </Link>
               )}
-              <button className="cart-btn">
-                <FontAwesomeIcon icon={faCartShopping} />
-                <span>{cart.length}</span>
-              </button>
+              <Link href="/cart">
+                <button className="cart-btn">
+                  <FontAwesomeIcon icon={faCartShopping} />
+                  <span>{cart.length}</span>
+                </button>
+              </Link>
               {/* <MobileHeader /> */}
             </div>
           </div>
