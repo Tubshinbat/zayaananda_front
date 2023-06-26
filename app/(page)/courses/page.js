@@ -1,18 +1,12 @@
 "use client";
-import {
-  faEye,
-  faGraduationCap,
-  faPlay,
-  faVideo,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Loader from "components/Generals/Loader";
-import { htmlToText } from "html-to-text";
+
 import base from "lib/base";
 import { getMenu } from "lib/menus";
 import { getOnlineCourses } from "lib/online";
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const [menu, setMenu] = useState(null);
@@ -42,7 +36,7 @@ export default function Page() {
         }}
       >
         <div className="container">
-          <h2> Онлайн сургалтууд </h2>
+          <h2> Сургалтууд </h2>
         </div>
       </div>
       <section>
@@ -51,7 +45,7 @@ export default function Page() {
             {courses.map((course) => (
               <div className="col-md-3">
                 <div className="col-course-item">
-                  <Link href={`/online/${course._id}`}>
+                  <Link href={`/courses/${course._id}`}>
                     <div className="col-course-picture">
                       {course.pictures && course.pictures[0] && (
                         <img src={base.cdnUrl + "/450/" + course.pictures[0]} />
@@ -59,7 +53,7 @@ export default function Page() {
                     </div>
                   </Link>
                   <div className="col-course-details">
-                    <Link href={`/online/${course._id}`}>
+                    <Link href={`/courses/${course._id}`}>
                       <h3> {course.name}</h3>
                     </Link>
                     <div className="col-course-info">

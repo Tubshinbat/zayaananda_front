@@ -1,10 +1,5 @@
 "use client";
-import {
-  faArrowLeft,
-  faPlay,
-  faVideo,
-  faGraduationCap,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "components/Generals/Loader";
 import NotFound from "components/Generals/Notfound";
@@ -21,12 +16,10 @@ import PayModule from "components/Pay/payModule";
 
 export default function Page({ params: { id } }) {
   const [course, setCourse] = useState(null);
-  const [courseList, setCourseList] = useState([]);
   const [more, setMore] = useState(false);
   const [selectData, setSelectData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { isLogin, checkCourse, isCourse, clear, userData, setIsCourse } =
-    useAuthContext();
+  const { checkCourse, clear, userData, setIsCourse } = useAuthContext();
   const {
     createQpayAndInvoice,
     invoice,
@@ -41,13 +34,11 @@ export default function Page({ params: { id } }) {
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       const { course } = await getCourse(id);
       if (course) {
         setCourse(course);
-        if (course.courses && course.courses.length > 0) {
-          setCourseList(course.courses);
-        }
       }
       setLoading(false);
     };
@@ -175,59 +166,10 @@ export default function Page({ params: { id } }) {
                     <div className="divider-dashed"> </div>
                     <div className="video-infos">
                       <div className="video-info-item">
-                        <FontAwesomeIcon icon={faVideo} /> {course.videoCount}{" "}
-                        Видео хичээл
-                      </div>
-                      <div className="video-info-item">
-                        <FontAwesomeIcon icon={faPlay} /> {course.views} Үзсэн
-                      </div>
-                      <div className="video-info-item">
-                        <FontAwesomeIcon icon={faGraduationCap} />{" "}
-                        {course.paidMember} сурагчид
+                        <FontAwesomeIcon icon={faEye} /> {course.views} Үзсэн
                       </div>
                     </div>
                   </div>
-                  {course.type === "online" && isLogin === false && (
-                    <button
-                      className="btn-booking"
-                      onClick={() => router.push("/login")}
-                    >
-                      Нэвтрэх
-                    </button>
-                  )}
-
-                  {course.type === "online" &&
-                    isLogin === true &&
-                    isCourse === false && (
-                      <button className="btn-booking" onClick={payCourse}>
-                        Худалдаж авах
-                      </button>
-                    )}
-
-                  {course.type === "online" && (
-                    <div className="online-course-list">
-                      <div className="online-course-list-header">
-                        <h4>Холбогдох сургалтууд</h4>
-                      </div>
-                      {courseList.length > 0 &&
-                        courseList.map((el) => (
-                          <li
-                            onClick={() =>
-                              isLogin === true &&
-                              isCourse === true &&
-                              setSelectData(el)
-                            }
-                            className={
-                              selectData &&
-                              selectData._id === el._id &&
-                              "active"
-                            }
-                          >
-                            {el.name}
-                          </li>
-                        ))}
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
