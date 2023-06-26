@@ -1,9 +1,9 @@
 import Loader from "components/Generals/Loader";
-import Courses from "components/Home/Courses";
+import Courses from "components/Home/courses";
 import HomeHeader from "components/Home/header";
-import Products from "components/Home/Product";
-import Services from "components/Home/Services";
-import Slider from "components/Home/Slider";
+import Products from "components/Home/product";
+import Services from "components/Home/services";
+import Slider from "components/Home/slider";
 import { Suspense } from "react";
 
 export default function Page() {
