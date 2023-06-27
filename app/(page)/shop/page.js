@@ -17,7 +17,8 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       const { products } = await getProducts(`status=true`);
-      const { menu } = await getMenu(`direct=services`);
+      const { menu } = await getMenu(`direct=shop`);
+      setMenu(menu)
       if (products) setDatas(products);
       setLoading(false);
     };
