@@ -42,6 +42,16 @@ export const PayProvider = ({ children }) => {
     setNotification(null);
   };
 
+  const init = () => {
+    setVisible(false);
+    setLoading(false);
+    setIsPaid(false);
+    setQpay(null);
+    setInvoice(null);
+    setError(null);
+    setNotification(null);
+  };
+
   const createQpayAndInvoice = async (data) => {
     setLoading(true);
     await axios.get("payment");
@@ -84,6 +94,7 @@ export const PayProvider = ({ children }) => {
         notification,
         checkPayment,
         createQpayAndInvoice,
+        init,
       }}
     >
       {" "}

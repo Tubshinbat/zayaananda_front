@@ -24,6 +24,7 @@ export default function Page() {
     error: err,
     notification,
     createQpayAndInvoice,
+    init,
   } = usePayContext();
 
   if (isLogin === false) {
@@ -97,6 +98,10 @@ export default function Page() {
       }
     }
   }, [isPaid]);
+
+  useEffect(() => {
+    init();
+  }, []);
 
   return (
     <>

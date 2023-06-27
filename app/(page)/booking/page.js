@@ -48,6 +48,7 @@ export default function Page() {
     isPaid,
     notification: noti,
     error: err,
+    init,
   } = usePayContext();
 
   const [choiseDate, setChoiseDate] = useState();
@@ -140,6 +141,10 @@ export default function Page() {
       setVisible(true);
     }
   }, [isBooking]);
+
+  useEffect(() => {
+    init();
+  }, []);
 
   if (!serviceData) {
     return <NotFound />;

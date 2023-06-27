@@ -36,6 +36,7 @@ export default function Page({ params: { id } }) {
     setVisible,
     qpay,
     isPaid,
+    init,
   } = usePayContext();
 
   const router = useRouter();
@@ -57,6 +58,7 @@ export default function Page({ params: { id } }) {
 
   useEffect(() => {
     clear();
+    init();
     checkCourse(id);
   }, []);
 
