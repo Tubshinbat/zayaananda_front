@@ -2172,7 +2172,7 @@ footer ul div a:hover {
   align-items: center;
 
   background: url("/images/header.jpg");
-
+  background-size: cover;
   padding: 40px 0px;
   min-height: 220px;
   color: #fff;
