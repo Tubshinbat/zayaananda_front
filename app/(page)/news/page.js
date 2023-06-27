@@ -22,6 +22,7 @@ export default function Page() {
       const { menu } = await getMenu(`direct=news`);
       const { news, pagination } = await getNews(`status=true`);
       setPagination(pagination);
+      setMenu(menu);
       setData(news);
       setLoading(false);
     };
