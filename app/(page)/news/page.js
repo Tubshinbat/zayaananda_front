@@ -47,7 +47,7 @@ export default function Page() {
         </div>
       </div>
       <section>
-        <div className="container">
+        <div className="container news-container-md">
           {loading === true && <Loader />}
           {data && data[0] && (
             <div className="starNews">

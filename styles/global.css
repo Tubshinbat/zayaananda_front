@@ -3127,6 +3127,12 @@ footer ul div a:hover {
   width: 100%;
 }
 
+@media (min-width:1100px) {
+  .news-container-md{
+    width: 900px;
+  }
+}
+
 @media (min-width: 900px) {
   .news-container {
     width: 850px;
