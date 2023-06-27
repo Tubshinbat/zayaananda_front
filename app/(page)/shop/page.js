@@ -45,10 +45,11 @@ export default function Page() {
         <div
           className="pageDetailsHeader"
           style={{
-            backgroundImage:
+            background:
               menu && menu.cover && menu.cover !== ""
                 ? `url("${base.cdnUrl}/${menu.cover}")`
                 : `/images/header.jpg`,
+                backgroundSize: "cover"
           }}
         >
           <div className="container">
