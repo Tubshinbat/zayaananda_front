@@ -19,7 +19,7 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { menu } = await getMenu(`direct=services`);
+      const { menu } = await getMenu(`direct=online`);
       const { courses } = await getOnlineCourses(`status=true&type=online`);
       console.log(courses);
       setMenu(menu);
