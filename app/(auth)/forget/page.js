@@ -1,41 +1,44 @@
 "use client";
 
 import React, { Button, Form, Input, InputNumber } from "antd";
-import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useAuthContext } from "context/authContext";
 import { useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
 import { toastControl } from "lib/toastControl";
-import { useCookies } from "react-cookie";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useNotificationContext } from "context/notificationContext";
 
 export default function Page() {
   const [form] = Form.useForm();
-
-  const [cookies] = useCookies(["zayatoken"]);
   const {
-    loginUser,
-    isLogin,
-    error,
-    loading,
-    checkToken,
-    notification,
     forgetPassword,
     isPassword,
-    clear,
     phoneCheck,
     code,
+    setCode,
+    setIsPassword,
   } = useAuthContext();
+
+  const { contentLoad } = useNotificationContext();
 
   const onFinishFailed = (errorInfo) => {
     // toastControl("error", errorInfo);
   };
 
-  const onFinish = async (values) => {
-    await loginUser(values);
-  };
+  useEffect(() => {
+    return () => {
+      setCode(false);
+      setIsPassword(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isPassword === true) {
+      redirect("/login");
+    }
+  }, [isPassword]);
+
+  const onFinish = async (values) => {};
 
   const handleNext = () => {
     if (!code) {
@@ -57,35 +60,26 @@ export default function Page() {
       .catch((error) => console.log(error));
   };
 
-  useEffect(() => {
-    if (isLogin) {
-      redirect("/userprofile");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isLogin) {
-      redirect("/userprofile");
-    }
-  }, [isLogin]);
-
-  useEffect(() => {
-    toastControl("error", error);
-  }, [error]);
-
-  useEffect(() => {
-    toastControl("success", notification);
-  }, [notification]);
-
-  useEffect(() => {
-    if (isPassword === true) {
-      redirect("/login");
-      clear();
-    }
-  }, [isPassword]);
-
   return (
     <>
+      <div
+        className="pageDetailsHeader"
+        style={{
+          background: `url(/images/header.jpg)`,
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="container">
+          <h2> Нууц үгээ мартсан </h2>
+          <div className="bread">
+            <li>
+              <Link href="/"> Нүүр </Link>
+            </li>
+            <span> /</span>
+            <li> Нууц үгээ мартсан </li>
+          </div>
+        </div>
+      </div>
       <section>
         <div className="login_page">
           <h4> Нууц үгээ мартсан </h4>
@@ -188,7 +182,7 @@ export default function Page() {
               <Form.Item className="login-btn-box">
                 <Button
                   size="large"
-                  loading={loading}
+                  loading={contentLoad}
                   className="loginBtn"
                   onClick={handleNext}
                 >
@@ -201,7 +195,7 @@ export default function Page() {
               <Form.Item className="login-btn-box">
                 <Button
                   size="large"
-                  loading={loading}
+                  loading={contentLoad}
                   className="loginBtn"
                   onClick={handleChangePassword}
                 >
@@ -210,17 +204,9 @@ export default function Page() {
               </Form.Item>
             )}
           </Form>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
+          <div className="login-page-register">
+            Танд бүртгэл байгаа бол <Link href="/login"> энд дарна </Link> уу
+          </div>
         </div>
       </section>
     </>

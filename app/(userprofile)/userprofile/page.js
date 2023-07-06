@@ -9,9 +9,9 @@ import base from "lib/base";
 import Link from "next/link";
 
 export default function Page() {
-  const { userData } = useAuthContext();
+  const { user } = useAuthContext();
 
-  if (!userData) {
+  if (!user) {
     return <NotFound />;
   } else {
     return (
@@ -25,19 +25,16 @@ export default function Page() {
                 <div className="pro-box profile-info">
                   <div className="profile">
                     <div className="pic">
-                      {userData && userData.image ? (
+                      {user && user.image ? (
                         <img
                           className="pic-img"
-                          src={base.cdnUrl + "/" + userData.image}
+                          src={base.cdnUrl + "/" + user.image}
                         />
                       ) : (
                         <img className="pic-img" src="/images/no-avatar.jpeg" />
                       )}
                     </div>
-                    <p className="username">
-                      {" "}
-                      {userData && userData.firstName}{" "}
-                    </p>
+                    <p className="username"> {user && user.firstName} </p>
                     <Link href="/userprofile/info"> Мэдээлэл засах </Link>
                   </div>
                 </div>

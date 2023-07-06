@@ -11,34 +11,19 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useAuthContext } from "context/authContext";
 import { usePayContext } from "context/payContext";
-
-const errorRender = (error) => {
-  let resError = "Алдаа гарлаа дахин оролдоно уу";
-
-  if (error.message) {
-    resError = error.message;
-  }
-
-  if (error.response !== undefined && error.response.status !== undefined) {
-    resError = error.response.status;
-  }
-  if (
-    error.response !== undefined &&
-    error.response.data !== undefined &&
-    error.response.data.error !== undefined
-  ) {
-    resError = error.response.data.error.message;
-  }
-  return resError;
-};
+import { useNotificationContext } from "context/notificationContext";
 
 const PayModule = (props) => {
   const { visible, setVisible, checkPayment, isPaid, invoice } =
     usePayContext();
+  const { contentLoad } = useNotificationContext();
   const [banks, setBanks] = useState([]);
   const [acitveTab, setActiveTab] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const { isLogin } = useAuthContext();
+  const [loading, setLoading] = useState(contentLoad);
+
+  useEffect(() => {
+    setLoading(contentLoad);
+  }, [contentLoad]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,10 +34,12 @@ const PayModule = (props) => {
   }, []);
 
   useEffect(() => {
-    if (visible === true) {
-      setTimeout(() => {
-        paymentCheck();
-      }, 1000 * 18);
+    if (!invoice) {
+      if (visible === true) {
+        setTimeout(() => {
+          paymentCheck();
+        }, 1000 * 18);
+      }
     }
   }, [visible]);
 

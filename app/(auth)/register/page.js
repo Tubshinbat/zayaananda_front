@@ -1,28 +1,24 @@
 "use client";
-
-import React, {
-  Button,
-  Card,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Space,
-  Typography,
-} from "antd";
-import { UserOutlined, KeyOutlined } from "@ant-design/icons";
+import React, { Button, Form, Input, InputNumber, Radio } from "antd";
 import Link from "next/link";
 import { useAuthContext } from "context/authContext";
 import { useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import { toastControl } from "lib/toastControl";
-import { useCookies } from "react-cookie";
 import { redirect } from "next/navigation";
+import { useNotificationContext } from "context/notificationContext";
 
 export default function Page() {
-  const [cookies] = useCookies(["zayatoken"]);
-  const { userRegister, isLogin, error, loading, checkToken, notification } =
-    useAuthContext();
+  const { userRegister, isRedirect, setIsRedirect } = useAuthContext();
+  const { contentLoad } = useNotificationContext();
+
+  useEffect(() => {
+    return () => {
+      setIsRedirect(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isRedirect === true) redirect("/login");
+  }, [isRedirect]);
 
   const onFinishFailed = (errorInfo) => {
     // toastControl("error", errorInfo);
@@ -32,31 +28,26 @@ export default function Page() {
     await userRegister(values);
   };
 
-  useEffect(() => {
-    if (isLogin) {
-      redirect("/userprofile");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isLogin) {
-      redirect("/userprofile");
-    }
-  }, [isLogin]);
-
-  useEffect(() => {
-    toastControl("error", error);
-  }, [error]);
-
-  useEffect(() => {
-    if (notification != null) {
-      toastControl("success", notification);
-      redirect("/login");
-    }
-  }, [notification]);
-
   return (
     <>
+      <div
+        className="pageDetailsHeader"
+        style={{
+          background: `url(/images/header.jpg)`,
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="container">
+          <h2> Бүртгүүлэх </h2>
+          <div className="bread">
+            <li>
+              <Link href="/"> Нүүр </Link>
+            </li>
+            <span> /</span>
+            <li> Бүртгүүлэх </li>
+          </div>
+        </div>
+      </div>
       <section>
         <div className="login_page">
           <h4> Бүртгүүлэх </h4>
@@ -114,6 +105,22 @@ export default function Page() {
                 size="large"
                 style={{ width: "100%", borderRadius: "2px" }}
                 placeholder="Утасны дугаараа оруулна уу"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Имэйлээ оруулна уу!",
+                },
+              ]}
+            >
+              <Input
+                size="large"
+                style={{ width: "100%", borderRadius: "2px" }}
+                placeholder="Имэйлээ оруулна уу"
               />
             </Form.Item>
 
@@ -177,7 +184,7 @@ export default function Page() {
             </Form.Item>
             <Form.Item className="login-btn-box">
               <Button
-                loading={loading}
+                loading={contentLoad}
                 size="large"
                 htmlType="submit"
                 className="loginBtn"
@@ -189,17 +196,6 @@ export default function Page() {
               Танд бүртгэл байгаа бол <Link href="/login"> энд дарна </Link> уу
             </div>
           </Form>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
         </div>
       </section>
     </>

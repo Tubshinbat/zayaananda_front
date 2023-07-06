@@ -14,10 +14,13 @@ import base from "lib/base";
 import { getCourse } from "lib/course";
 import { toastControl } from "lib/toastControl";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useAuthContext } from "context/authContext";
 import { usePayContext } from "context/payContext";
 import PayModule from "components/Pay/payModule";
+import Link from "next/link";
+import { getRandomProducts } from "lib/product";
+import RandomProduct from "components/Generals/RandomProduct";
 
 export default function Page({ params: { id } }) {
   const [course, setCourse] = useState(null);
@@ -25,60 +28,42 @@ export default function Page({ params: { id } }) {
   const [more, setMore] = useState(false);
   const [selectData, setSelectData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { isLogin, checkCourse, isCourse, clear, userData, setIsCourse } =
-    useAuthContext();
+
+  const { checkCourse, isCourse, user, setIsCourse } = useAuthContext();
   const {
     createQpayAndInvoice,
     invoice,
-    notification,
-    error,
     visible,
     setVisible,
     qpay,
     isPaid,
-    init,
+    paymentInit,
+    setIsPaid,
   } = usePayContext();
 
   const router = useRouter();
 
   useEffect(() => {
+    paymentInit();
+    checkCourse(id);
     const fetchData = async () => {
       const { course } = await getCourse(id);
+
       if (course) {
         setCourse(course);
         if (course.courses && course.courses.length > 0) {
           setCourseList(course.courses);
         }
       }
+
       setLoading(false);
     };
 
     fetchData().catch((error) => console.log(error));
+    return () => {
+      paymentInit();
+    };
   }, []);
-
-  useEffect(() => {
-    clear();
-    init();
-    checkCourse(id);
-  }, []);
-
-  useEffect(() => {
-    if (userData) {
-      checkCourse(id);
-    }
-  }, [userData]);
-
-  useEffect(() => {
-    if (error) {
-      toastControl("error", error);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (notification) {
-      toastControl("success", notification);
-    }
-  }, [notification]);
 
   useEffect(() => {
     if (isPaid === true) {
@@ -88,16 +73,28 @@ export default function Page({ params: { id } }) {
     }
   }, [isPaid]);
 
+  useEffect(() => {
+    if (course) {
+      if (
+        (course.isDiscount == true && course.discount === 0) ||
+        (course.isDiscount == false && course.price === 0)
+      ) {
+        setIsCourse(true);
+        setIsPaid(true);
+      }
+    }
+  }, [course]);
+
   const payCourse = () => {
     setVisible(true);
     if (invoice === null) {
       const data = {
         sender_invoice_no: null,
         sender_branch_code: "course",
-        invoice_description: `${userData.phoneNumber} хэрэглэгч ${course.name} төлбөр илгээв`,
-        amount: course.price,
+        invoice_description: `${user.phoneNumber} хэрэглэгч ${course.name} төлбөр илгээв`,
+        amount: course.isDiscount === true ? course.discount : course.price,
         course: course._id,
-        userId: userData._id,
+        userId: user._id,
       };
       createQpayAndInvoice(data);
     }
@@ -118,6 +115,31 @@ export default function Page({ params: { id } }) {
   } else {
     return (
       <>
+        <div
+          className="pageDetailsHeader"
+          style={{
+            background:
+              course && course.pictures && course.pictures[1]
+                ? `url("${base.cdnUrl}/${course.pictures[1]}")`
+                : `url(/images/header.jpg)`,
+            backgroundSize: "cover",
+          }}
+        >
+          <div className="container">
+            <h2> {course && course.name} </h2>
+            <div className="bread">
+              <li>
+                <Link href="/"> Нүүр </Link>
+              </li>
+              <span> /</span>
+              <li>
+                <Link href="/online"> Онлайн сургалтууд </Link>
+              </li>
+              <span> /</span>
+              <li> {course && course.name} </li>
+            </div>
+          </div>
+        </div>
         <section>
           <div className="container">
             <div className="row">
@@ -172,7 +194,21 @@ export default function Page({ params: { id } }) {
                   <div className="details-box">
                     <div className="price-box">
                       <span> Үндсэн үнэ: </span>
-                      <h4> {new Intl.NumberFormat().format(course.price)}₮ </h4>
+                      {course.isDiscount == true && (
+                        <h4>
+                          {new Intl.NumberFormat().format(course.discount)}₮{" "}
+                          <span>
+                            {" "}
+                            {new Intl.NumberFormat().format(course.price)}₮{" "}
+                          </span>
+                        </h4>
+                      )}
+
+                      {course.isDiscount == false && (
+                        <h4>
+                          {new Intl.NumberFormat().format(course.price)}₮{" "}
+                        </h4>
+                      )}
                     </div>
                     <div className="divider-dashed"> </div>
                     <div className="video-infos">
@@ -189,7 +225,7 @@ export default function Page({ params: { id } }) {
                       </div>
                     </div>
                   </div>
-                  {course.type === "online" && isLogin === false && (
+                  {course.type === "online" && !user && (
                     <button
                       className="btn-booking"
                       onClick={() => router.push("/login")}
@@ -198,13 +234,11 @@ export default function Page({ params: { id } }) {
                     </button>
                   )}
 
-                  {course.type === "online" &&
-                    isLogin === true &&
-                    isCourse === false && (
-                      <button className="btn-booking" onClick={payCourse}>
-                        Худалдаж авах
-                      </button>
-                    )}
+                  {course.type === "online" && user && isCourse === false && (
+                    <button className="btn-booking" onClick={payCourse}>
+                      Худалдаж авах
+                    </button>
+                  )}
 
                   {course.type === "online" && (
                     <div className="online-course-list">
@@ -215,9 +249,7 @@ export default function Page({ params: { id } }) {
                         courseList.map((el) => (
                           <li
                             onClick={() =>
-                              isLogin === true &&
-                              isCourse === true &&
-                              setSelectData(el)
+                              user && isCourse === true && setSelectData(el)
                             }
                             className={
                               selectData &&
@@ -234,6 +266,7 @@ export default function Page({ params: { id } }) {
               </div>
             </div>
           </div>
+          <RandomProduct />
         </section>
         {visible === true && (
           <PayModule visible={visible} invoice={invoice} qpay={qpay} />

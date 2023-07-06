@@ -18,25 +18,48 @@ import Share from "components/Generals/Share";
 import Loading from "app/loading";
 import { faArrowLeft, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 
 const ServiceDetails = ({ page }) => {
   const router = useRouter();
   const [more, setMore] = useState(false);
-  const { setService, clear, init } = useBookingContext();
+  const { initBooking, setServiceId } = useBookingContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    clear();
-    init();
+    initBooking();
   }, []);
 
   const handleBooking = () => {
-    setService(page._id);
+    setServiceId(page._id);
     router.push("/booking");
   };
 
   return (
     <>
+      <div
+        className="pageDetailsHeader"
+        style={{
+          background: `url(/images/header.jpg)`,
+          backgroundSize: "cover",
+        }}
+      >
+        {" "}
+        <div className="container">
+          <h2> {page && page.name} </h2>
+          <div className="bread">
+            <li>
+              <Link href="/"> Нүүр </Link>
+            </li>
+            <span> /</span>
+            <li>
+              <Link href="/services"> Үйлчилгээнүүд </Link>{" "}
+            </li>
+            <span> /</span>
+            <li>{page && page.name}</li>
+          </div>
+        </div>
+      </div>
       <section className="pageDetails">
         <div className="container">
           {page && (

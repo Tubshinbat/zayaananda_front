@@ -11,6 +11,7 @@ import Footer from "components/Generals/Footer";
 import { AuthProvider } from "context/authContext";
 import { ToastContainer } from "react-toastify";
 import { PayProvider } from "context/payContext";
+import { NotificationProvider } from "context/notificationContext";
 
 export const metadata = {
   title: `Zaya's ananda centre`,
@@ -22,31 +23,33 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <PayProvider>
+        <NotificationProvider>
           <AuthProvider>
-            <CartProvider>
-              <MenuProvider>
-                <WebInfoProvider>
-                  <BookingProvider>
-                    {children}
-                    <Footer />
-                    <ToastContainer
-                      position="top-right"
-                      autoClose={5000}
-                      hideProgressBar={false}
-                      newestOnTop={false}
-                      closeOnClick
-                      rtl={false}
-                      pauseOnFocusLoss
-                      draggable
-                      pauseOnHover
-                    />
-                  </BookingProvider>
-                </WebInfoProvider>
-              </MenuProvider>
-            </CartProvider>
+            <PayProvider>
+              <CartProvider>
+                <MenuProvider>
+                  <WebInfoProvider>
+                    <BookingProvider>
+                      {children}
+                      <Footer />
+                      <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                      />
+                    </BookingProvider>
+                  </WebInfoProvider>
+                </MenuProvider>
+              </CartProvider>
+            </PayProvider>
           </AuthProvider>
-        </PayProvider>
+        </NotificationProvider>
       </body>
     </html>
   );

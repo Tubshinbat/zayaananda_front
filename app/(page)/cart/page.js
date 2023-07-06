@@ -1,4 +1,6 @@
 "use client";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, InputNumber } from "antd";
 import PayModule from "components/Pay/payModule";
 import { useAuthContext } from "context/authContext";
@@ -6,58 +8,58 @@ import { useCartContext } from "context/cartContext";
 import { usePayContext } from "context/payContext";
 import base from "lib/base";
 import { toastControl } from "lib/toastControl";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Page() {
-  const { isLogin, userData } = useAuthContext();
   const [form] = Form.useForm();
-  const { cart, qtyChange, total, createOrder, error, invoiceData } =
-    useCartContext();
-
   const {
-    setVisible,
-    visible,
-    isPaid,
-    qpay,
-    invoice,
-    error: err,
-    notification,
-    createQpayAndInvoice,
-    init,
-  } = usePayContext();
-
-  if (isLogin === false) {
-    redirect("/login");
-  }
+    cart,
+    qtyChange,
+    total,
+    isVerfi,
+    setVerfi,
+    setInfo,
+    info,
+    createOrder,
+  } = useCartContext();
+  const { visible, qpay, invoice, paymentInit, setVisible } = usePayContext();
+  const { user } = useAuthContext();
 
   const requiredRule = {
     required: true,
     message: "Тус талбарыг заавал бөглөнө үү",
   };
 
+  useEffect(() => {
+    paymentInit();
+
+    return () => {
+      paymentInit();
+      setVerfi(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      form.setFieldsValue({ ...user });
+    }
+  }, [user]);
+
   const handleChange = (e, index) => {
     let cloneCart = cart;
-    cloneCart[index].qty = parseInt(e.target.value);
-    cloneCart[index].price =
-      parseInt(e.target.value) * parseInt(cloneCart[index].qtyPrice);
+    let q = 1;
+    if (parseInt(e.target.value) < 0) {
+      toastControl("error", "Хасах тоо өгч болохгүй");
+    } else if (e.target.value === "") {
+      toastControl("error", "Хоосон байж болохгүй");
+    } else {
+      cloneCart[index].qty = parseInt(e.target.value);
+      cloneCart[index].price =
+        parseInt(e.target.value) * parseInt(cloneCart[index].qtyPrice);
 
-    qtyChange(cloneCart);
-  };
-
-  const handleClick = () => {
-    form.validateFields().then((values) => {
-      delete values.date;
-      const data = {
-        ...values,
-        carts: cart,
-        userId: userData && userData._id,
-      };
-      if (!invoiceData) {
-        createOrder(data);
-      }
-      setVisible((bf) => (bf === true ? false : true));
-    });
+      qtyChange(cloneCart);
+    }
   };
 
   const handleDelete = (index) => {
@@ -71,37 +73,42 @@ export default function Page() {
     qtyChange(cloneCart);
   };
 
-  useEffect(() => {
-    if (userData) {
-      form.setFieldsValue({ ...userData });
-    }
-  }, [userData]);
+  const handleVerfi = () => {
+    form.validateFields().then((values) => {
+      const data = {
+        ...values,
+      };
+      setInfo(data);
+      setVerfi(true);
+    });
+  };
 
-  useEffect(() => {
-    toastControl("error", (error && error) || (err && err));
-  }, [error, err]);
+  const handleClick = () => {
+    form.validateFields().then((values) => {
+      delete values.date;
+      const data = {
+        ...values,
+        carts: cart,
+        userId: user && user._id,
+      };
+      if (!invoice && isVerfi == true) createOrder(data);
+      setVisible(true);
+    });
+  };
 
-  useEffect(() => {
-    toastControl("success", notification);
-  }, [notification]);
+  // useEffect(() => {
+  //   createQpayAndInvoice(invoiceData);
+  // }, [invoiceData]);
 
-  useEffect(() => {
-    createQpayAndInvoice(invoiceData);
-  }, [invoiceData]);
-
-  useEffect(() => {
-    if (isPaid === true) {
-      if (isLogin === true) {
-        redirect("/userprofile/orders");
-      } else {
-        redirect("/");
-      }
-    }
-  }, [isPaid]);
-
-  useEffect(() => {
-    init();
-  }, []);
+  // useEffect(() => {
+  //   if (isPaid === true) {
+  //     if (isLogin === true) {
+  //       redirect("/userprofile/orders");
+  //     } else {
+  //       redirect("/");
+  //     }
+  //   }
+  // }, [isPaid]);
 
   return (
     <>
@@ -124,28 +131,33 @@ export default function Page() {
                           <span> Бүтээгдэхүүн </span>
                           <h5>{el.name}</h5>
                         </div>
-                        <div className="qty">
-                          <p> Тоо ширхэг </p>
-                          <input
-                            type="number"
-                            name="qty"
-                            min="1"
-                            max="100"
-                            defaultValue={el.qty}
-                            onChange={(e) => handleChange(e, index)}
-                          />
+                        <div className="cart-p-controls">
+                          {isVerfi == false && (
+                            <div className="cart-qty">
+                              <p> Тоо ширхэг </p>
+                              <input
+                                type="number"
+                                name="qty"
+                                min="1"
+                                max="100"
+                                defaultValue={el.qty}
+                                onChange={(e) => handleChange(e, index)}
+                              />
+                            </div>
+                          )}
+                          <p className="choise-service-price">
+                            {isVerfi == true && el.qty} x{" "}
+                            {new Intl.NumberFormat().format(el.price)}₮
+                          </p>
+                          {isVerfi == false && (
+                            <div
+                              className="remove-cart-item"
+                              onClick={() => handleDelete(index)}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </div>
+                          )}
                         </div>
-
-                        <p className="choise-service-price">
-                          {new Intl.NumberFormat().format(el.price)}₮
-                          <div
-                            className="remove-cart-item"
-                            onClick={() => handleDelete(index)}
-                          >
-                            {" "}
-                            Устгах{" "}
-                          </div>
-                        </p>
                       </div>
                     </div>
                   ))}
@@ -153,43 +165,77 @@ export default function Page() {
                   <h4> Хувийн мэдээлэл </h4>
                 </div>
                 <div className="pro-box booking-box">
-                  <Form layout="vertical" form={form}>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <Form.Item
-                          name="firstName"
-                          label="Нэр"
-                          rules={[requiredRule]}
-                        >
-                          <Input
-                            placeholder="Нэрээ оруулна уу"
-                            style={{ width: "100%" }}
-                          />
-                        </Form.Item>
+                  {isVerfi === false && (
+                    <Form layout="vertical" form={form}>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <Form.Item
+                            name="firstName"
+                            label="Нэр"
+                            rules={[requiredRule]}
+                          >
+                            <Input
+                              placeholder="Нэрээ оруулна уу"
+                              style={{ width: "100%" }}
+                            />
+                          </Form.Item>
+                        </div>
+                        <div className="col-md-6">
+                          <Form.Item
+                            name="lastName"
+                            label="Овог нэр"
+                            rules={[requiredRule]}
+                          >
+                            <Input placeholder="Имэйл хаягыг оруулна уу" />
+                          </Form.Item>
+                        </div>
+                        <div className="col-md-6">
+                          <Form.Item
+                            label="Утасны дугаар"
+                            name="phoneNumber"
+                            rules={[requiredRule]}
+                          >
+                            <InputNumber
+                              style={{ width: "100%" }}
+                              placeholder="Утасны дугаараа оруулна уу"
+                            />
+                          </Form.Item>
+                        </div>
+                        <div className="col-md-6">
+                          <Form.Item
+                            label="Имэйл хаяг"
+                            name="email"
+                            rules={[requiredRule]}
+                          >
+                            <Input placeholder="Имэйл хаягаа оруулна уу" />
+                          </Form.Item>
+                        </div>
                       </div>
+                    </Form>
+                  )}
+                  {isVerfi === true && (
+                    <div className="row booking-details">
                       <div className="col-md-6">
-                        <Form.Item
-                          name="lastName"
-                          label="Овог нэр"
-                          rules={[requiredRule]}
-                        >
-                          <Input placeholder="Имэйл хаягыг оруулна уу" />
-                        </Form.Item>
+                        <labe> Таны овог: </labe>
+                        {info.lastName}
                       </div>
+
                       <div className="col-md-6">
-                        <Form.Item
-                          label="Утасны дугаар"
-                          name="phoneNumber"
-                          rules={[requiredRule]}
-                        >
-                          <InputNumber
-                            style={{ width: "100%" }}
-                            placeholder="Утасны дугаараа оруулна уу"
-                          />
-                        </Form.Item>
+                        <labe> Таны нэр: </labe>
+                        {info.firstName}
+                      </div>
+
+                      <div className="col-md-6">
+                        <labe> Утасны дугаар: </labe>
+                        {info.phoneNumber}
+                      </div>
+
+                      <div className="col-md-6">
+                        <labe> Имэйл хаяг: </labe>
+                        {info.email}
                       </div>
                     </div>
-                  </Form>
+                  )}
                 </div>
               </div>
             </div>
@@ -216,10 +262,28 @@ export default function Page() {
                   </li>
                 </ul>
               </div>
-
-              <button className="pay-btn" onClick={handleClick}>
-                Худалдаж авах
-              </button>
+              {isVerfi == false && (
+                <button className="pay-btn" onClick={() => handleVerfi()}>
+                  Баталгаажуулах
+                </button>
+              )}
+              {isVerfi == true && (
+                <>
+                  <button className="pay-btn" onClick={() => handleClick()}>
+                    Худалдаж авах
+                  </button>
+                  <button
+                    className="back-btn"
+                    style={{ width: "100%", marginTop: "15px" }}
+                    onClick={() => {
+                      paymentInit();
+                      setVerfi(false);
+                    }}
+                  >
+                    Буцах
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -17,42 +17,53 @@ import { toast, ToastContainer } from "react-toastify";
 import { toastControl } from "lib/toastControl";
 import { useCookies } from "react-cookie";
 import { redirect } from "next/navigation";
+import { useNotificationContext } from "context/notificationContext";
 
 export default function Page() {
   const [cookies] = useCookies(["zayatoken"]);
-  const { loginUser, isLogin, error, loading, checkToken, notification } =
-    useAuthContext();
+  const { loginUser, user } = useAuthContext();
+  const { contentLoad } = useNotificationContext();
 
-  const onFinishFailed = (errorInfo) => {
-    // toastControl("error", errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
 
   const onFinish = async (values) => {
     await loginUser(values);
   };
 
   useEffect(() => {
-    if (isLogin) {
+
+    if (user) {
       redirect("/userprofile");
     }
   }, []);
 
   useEffect(() => {
-    if (isLogin) {
+
+    if (user) {
       redirect("/userprofile");
     }
-  }, [isLogin]);
-
-  useEffect(() => {
-    toastControl("error", error);
-  }, [error]);
-
-  useEffect(() => {
-    toastControl("success", notification);
-  }, [notification]);
+  }, [user]);
 
   return (
     <>
+      <div
+        className="pageDetailsHeader"
+        style={{
+          background: `url(/images/header.jpg)`,
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="container">
+          <h2> Нэвтрэх </h2>
+          <div className="bread">
+            <li>
+              <Link href="/"> Нүүр </Link>
+            </li>
+            <span> /</span>
+            <li> Нэвтрэх </li>
+          </div>
+        </div>
+      </div>
       <section>
         <div className="login_page">
           <h4> Нэвтрэх </h4>
@@ -101,7 +112,7 @@ export default function Page() {
             <Form.Item className="login-btn-box">
               <Button
                 size="large"
-                loading={loading}
+                loading={contentLoad}
                 htmlType="submit"
                 className="loginBtn"
               >

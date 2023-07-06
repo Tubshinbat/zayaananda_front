@@ -10,9 +10,7 @@ export default function Page() {
   return (
     <>
       <div className="headerArea">
-        <Suspense fallback={<Loader />}>
-          <HomeHeader />
-        </Suspense>
+        <HomeHeader />
 
         <Suspense fallback={<Loader />}>
           <Slider />

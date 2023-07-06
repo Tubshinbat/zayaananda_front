@@ -9,7 +9,7 @@ const Products = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { products } = await getProducts(`status=true&limit=10`);
+      const { products } = await getProducts(`status=true&limit=8`);
       setProducts(products);
     };
 
@@ -32,17 +32,16 @@ const Products = () => {
             {products &&
               products.map((product, index) => (
                 <div
-                  className=" col-lg-3 col-md-3 col-sm-4 col-6 col-md-2-5 "
+                  className=" col-lg-3 col-md-3 col-sm-4 col-6 "
                   key={`product_${index}`}
                 >
                   <div className="productItem">
                     <Link href={`/product/${product._id}`}>
-                      <div
-                        className="productImage"
-                        style={{
-                          backgroundImage: `url(${base.cdnUrl}/${product.pictures[0]})`,
-                        }}
-                      ></div>
+                      <div className="productImage">
+                        <img
+                          src={`${base.cdnUrl}/350x350/${product.pictures[0]}`}
+                        />
+                      </div>
                     </Link>
                     <div className="productMore">
                       <h4> {product.name} </h4>

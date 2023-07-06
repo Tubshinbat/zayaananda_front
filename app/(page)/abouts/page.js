@@ -5,6 +5,7 @@ import base from "lib/base";
 import { getEmployees } from "lib/employee";
 import { getMenu, getMenus } from "lib/menus";
 import { getWebInfo } from "lib/webinfo";
+import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 
 export default function Page() {
@@ -34,12 +35,19 @@ export default function Page() {
             background:
               menu && menu.cover && menu.cover !== ""
                 ? `url("${base.cdnUrl}/${menu.cover}")`
-                : `/images/header.jpg`,
-                backgroundSize: "cover"
+                : `url(/images/header.jpg)`,
+            backgroundSize: "cover",
           }}
         >
           <div className="container">
             <h2> Бидний тухай </h2>
+            <div className="bread">
+              <li>
+                <Link href="/"> Нүүр </Link>
+              </li>
+              <span> /</span>
+              <li> {menu && menu.name} </li>
+            </div>
           </div>
         </div>
         <section>

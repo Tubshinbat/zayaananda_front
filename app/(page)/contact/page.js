@@ -10,7 +10,13 @@ export default async function Page() {
     <div>
       <main>
         <Suspense fallback={<Loading />}>
-          <div className="pageDetailsHeader">
+          <div
+            className="pageDetailsHeader"
+            style={{
+              background: `url(/images/header.jpg)`,
+              backgroundSize: "cover",
+            }}
+          >
             <div className="container">
               <h2> Холбоо барих </h2>
             </div>

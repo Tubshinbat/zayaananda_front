@@ -1,5 +1,9 @@
 "use client";
-import { faArrowLeft, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faEye,
+  faGraduationCap,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "components/Generals/Loader";
 import NotFound from "components/Generals/Notfound";
@@ -13,6 +17,9 @@ import { useState, useEffect } from "react";
 import { useAuthContext } from "context/authContext";
 import { usePayContext } from "context/payContext";
 import PayModule from "components/Pay/payModule";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+import RandomProduct from "components/Generals/RandomProduct";
+import Link from "next/link";
 
 export default function Page({ params: { id } }) {
   const [course, setCourse] = useState(null);
@@ -29,6 +36,7 @@ export default function Page({ params: { id } }) {
     setVisible,
     qpay,
     isPaid,
+    init,
   } = usePayContext();
 
   const router = useRouter();
@@ -44,11 +52,6 @@ export default function Page({ params: { id } }) {
     };
 
     fetchData().catch((error) => console.log(error));
-  }, []);
-
-  useEffect(() => {
-    clear();
-    checkCourse(id);
   }, []);
 
   useEffect(() => {
@@ -107,6 +110,31 @@ export default function Page({ params: { id } }) {
   } else {
     return (
       <>
+        <div
+          className="pageDetailsHeader"
+          style={{
+            background:
+              course && course.pictures && course.pictures[1]
+                ? `url("${base.cdnUrl}/${course.pictures[1]}")`
+                : `url(/images/header.jpg)`,
+            backgroundSize: "cover",
+          }}
+        >
+          <div className="container">
+            <h2> {course && course.name} </h2>
+            <div className="bread">
+              <li>
+                <Link href="/"> Нүүр </Link>
+              </li>
+              <span> /</span>
+              <li>
+                <Link href="/courses"> Онлайн сургалтууд </Link>
+              </li>
+              <span> /</span>
+              <li> {course && course.name} </li>
+            </div>
+          </div>
+        </div>
         <section>
           <div className="container">
             <div className="row">
@@ -168,12 +196,21 @@ export default function Page({ params: { id } }) {
                       <div className="video-info-item">
                         <FontAwesomeIcon icon={faEye} /> {course.views} Үзсэн
                       </div>
+                      <div className="video-info-item">
+                        <FontAwesomeIcon icon={faGraduationCap} />
+                        Дүүргэлт: {course.classCount}
+                      </div>
+                      <div className="video-info-item">
+                        <FontAwesomeIcon icon={faClock} />
+                        Эхлэх огноо: {course.startDate}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <RandomProduct />
         </section>
         {visible === true && (
           <PayModule visible={visible} invoice={invoice} qpay={qpay} />

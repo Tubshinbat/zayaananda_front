@@ -7,24 +7,13 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 export default function RootLayout({ children }) {
-  const { checkToken, isLogin } = useAuthContext();
-  const [cookies] = useCookies(["zayatoken"]);
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    if (
-      cookies.zayatoken !== undefined &&
-      cookies.zayatoken !== null &&
-      cookies.zayatoken !== "undefined"
-    ) {
-      checkToken(cookies.zayatoken);
-    }
-  }, [cookies]);
-
-  useEffect(() => {
-    if (isLogin === false) {
+    if (!user) {
       redirect("/login");
     }
-  }, [isLogin]);
+  }, [user]);
 
   return (
     <>

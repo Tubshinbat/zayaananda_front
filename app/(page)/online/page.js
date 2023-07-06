@@ -5,6 +5,7 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BlockLoad from "components/Generals/blockLoad";
 import Loader from "components/Generals/Loader";
 import { htmlToText } from "html-to-text";
 import base from "lib/base";
@@ -16,18 +17,40 @@ import { Suspense, useEffect, useState } from "react";
 export default function Page() {
   const [menu, setMenu] = useState(null);
   const [courses, setCourses] = useState([]);
+  const [paginate, setPaginate] = useState({});
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const { menu } = await getMenu(`direct=online`);
-      const { courses } = await getOnlineCourses(`status=true&type=online`);
-      console.log(courses);
+      const { courses, pagination } = await getOnlineCourses(
+        `status=true&type=online`
+      );
+
       setMenu(menu);
       setCourses(courses);
+      setPaginate(pagination);
+      setLoader(false);
     };
 
     fetchData().catch((err) => console.log(err));
   }, []);
+
+  const nextpage = () => {
+    const next = async () => {
+      const { courses, pagination } = await getOnlineCourses(
+        `status=true&type=online&page=${paginate.nextPage}`
+      );
+      setCourses((bs) => [...bs, ...courses]);
+      setPaginate(pagination);
+      setLoader(false);
+    };
+
+    if (paginate && paginate.nextPage) {
+      setLoader(true);
+      next().catch((error) => console.log(error));
+    }
+  };
 
   return (
     <>
@@ -37,12 +60,19 @@ export default function Page() {
           background:
             menu && menu.cover && menu.cover !== ""
               ? `url("${base.cdnUrl}/${menu.cover}")`
-              : `/images/header.jpg`,
-              backgroundSize: "cover"
+              : `url(/images/header.jpg)`,
+          backgroundSize: "cover",
         }}
       >
         <div className="container">
           <h2> Онлайн сургалтууд </h2>
+          <div className="bread">
+            <li>
+              <Link href="/"> Нүүр </Link>
+            </li>
+            <span> /</span>
+            <li> {menu && menu.name} </li>
+          </div>
         </div>
       </div>
       <section>
@@ -80,6 +110,14 @@ export default function Page() {
               </div>
             ))}
           </div>
+          {loader === true && <BlockLoad />}
+          {paginate && paginate.nextPage && (
+            <div className="pagination">
+              <button className="more-page" onClick={() => nextpage()}>
+                Дараагийн хуудас
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>

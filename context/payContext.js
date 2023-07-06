@@ -3,68 +3,38 @@ import axios from "axios-base";
 import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
+import { useNotificationContext } from "./notificationContext";
 
 const PayContext = createContext({});
 
-const errorRender = (error) => {
-  let resError = "Алдаа гарлаа дахин оролдоно уу";
-
-  if (error.message) {
-    resError = error.message;
-  }
-
-  if (error.response !== undefined && error.response.status !== undefined) {
-    resError = error.response.status;
-  }
-  if (
-    error.response !== undefined &&
-    error.response.data !== undefined &&
-    error.response.data.error !== undefined
-  ) {
-    resError = error.response.data.error.message;
-  }
-  return resError;
-};
-
 export const PayProvider = ({ children }) => {
+  const { setContentLoad, setError, setAlert } = useNotificationContext();
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
   const [qpay, setQpay] = useState(null);
   const [invoice, setInvoice] = useState(null);
-  const [error, setError] = useState(null);
-  const [notification, setNotification] = useState(null);
 
-  const clear = () => {
-    setLoading(false);
-    setError(null);
-    setIsPaid(false);
-    setNotification(null);
-  };
-
-  const init = () => {
+  const paymentInit = () => {
     setVisible(false);
-    setLoading(false);
     setIsPaid(false);
     setQpay(null);
     setInvoice(null);
-    setError(null);
-    setNotification(null);
   };
 
   const createQpayAndInvoice = async (data) => {
-    setLoading(true);
-    await axios.get("payment");
+    setContentLoad(true);
 
     axios
       .post("payment/create", data)
       .then((result) => {
         setQpay(result.data.data);
         setInvoice(result.data.invoice);
+        setContentLoad(false);
       })
-      .catch((error) => setNotification(errorRender(error)));
-
-    clear();
+      .catch((error) => {
+        setError(error);
+        setContentLoad(false);
+      });
   };
 
   const checkPayment = async (invoice_id) => {
@@ -72,33 +42,31 @@ export const PayProvider = ({ children }) => {
       .get(`payment/call?invoice=${invoice_id}`)
       .then((result) => {
         setIsPaid(true);
-        setNotification("Төлбөр төлөгдсөн байна");
+        setAlert("Төлбөр төлөгдсөн байна");
+        setContentLoad(false);
       })
       .catch((error) => {
-        setError(errorRender(error));
+        setError(error);
         setIsPaid(false);
+        setContentLoad(false);
       });
-    clear();
   };
 
   return (
     <PayContext.Provider
       value={{
+        paymentInit,
         setVisible,
-        loading,
         visible,
         isPaid,
         qpay,
-        invoice,
-        error,
-        notification,
         checkPayment,
+        setIsPaid,
+        invoice,
         createQpayAndInvoice,
-        init,
       }}
     >
-      {" "}
-      {children}{" "}
+      {children}
     </PayContext.Provider>
   );
 };

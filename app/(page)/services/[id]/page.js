@@ -1,3 +1,4 @@
+import RandomProduct from "components/Generals/RandomProduct";
 import ServiceDetails from "components/Service/service-details";
 import { getService } from "lib/services";
 
@@ -12,6 +13,7 @@ export default async function Page({ params: { id } }) {
     <div>
       <main>
         <ServiceDetails page={service} />
+        <RandomProduct />
       </main>
     </div>
   );

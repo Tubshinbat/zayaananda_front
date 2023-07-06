@@ -1,6 +1,7 @@
 "use client";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BlockLoad from "components/Generals/blockLoad";
 
 import base from "lib/base";
 import { getMenu } from "lib/menus";
@@ -11,18 +12,40 @@ import { useEffect, useState } from "react";
 export default function Page() {
   const [menu, setMenu] = useState(null);
   const [courses, setCourses] = useState([]);
+  const [paginate, setPaginate] = useState({});
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const { menu } = await getMenu(`direct=courses`);
-      const { courses } = await getOnlineCourses(`status=true&type=local`);
-      console.log(courses);
+      const { courses, pagination } = await getOnlineCourses(
+        `status=true&type=local`
+      );
+
       setMenu(menu);
       setCourses(courses);
+      setPaginate(pagination);
+      setLoader(false);
     };
 
     fetchData().catch((err) => console.log(err));
   }, []);
+
+  const nextpage = () => {
+    const next = async () => {
+      const { courses, pagination } = await getOnlineCourses(
+        `status=true&type=local&page=${paginate.nextPage}`
+      );
+      setCourses((bs) => [...bs, ...courses]);
+      setPaginate(pagination);
+      setLoader(false);
+    };
+
+    if (paginate && paginate.nextPage) {
+      setLoader(true);
+      next().catch((error) => console.log(error));
+    }
+  };
 
   return (
     <>
@@ -32,12 +55,19 @@ export default function Page() {
           background:
             menu && menu.cover && menu.cover !== ""
               ? `url("${base.cdnUrl}/${menu.cover}")`
-              : `/images/header.jpg`,
-              backgroundSize: "cover"
+              : `url(/images/header.jpg)`,
+          backgroundSize: "cover",
         }}
       >
         <div className="container">
           <h2> Сургалтууд </h2>
+          <div className="bread">
+            <li>
+              <Link href="/"> Нүүр </Link>
+            </li>
+            <span> /</span>
+            <li> {menu && menu.name} </li>
+          </div>
         </div>
       </div>
       <section>
@@ -67,6 +97,14 @@ export default function Page() {
               </div>
             ))}
           </div>
+          {loader === true && <BlockLoad />}
+          {paginate && paginate.nextPage && (
+            <div className="pagination">
+              <button className="more-page" onClick={() => nextpage()}>
+                Дараагийн хуудас
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>

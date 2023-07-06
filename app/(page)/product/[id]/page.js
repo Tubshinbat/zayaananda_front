@@ -10,6 +10,7 @@ import { useCartContext } from "context/cartContext";
 import base from "lib/base";
 import { getProduct } from "lib/product";
 import { toastControl } from "lib/toastControl";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -23,7 +24,7 @@ export default async function Page({ params: { id } }) {
   const [data, setData] = useState(null);
   const [more, setMore] = useState(false);
   const { cartAdd, cart } = useCartContext();
-  const { isLogin } = useAuthContext();
+  const { user } = useAuthContext();
   const countRef = useRef(1);
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export default async function Page({ params: { id } }) {
   }, []);
 
   const handleCart = () => {
-    if (data && isLogin == true) {
+    if (data && user) {
       const price =
         countRef.current * parseInt(data.discount ? data.discount : data.price);
       const qtyPrice = parseInt(data.discount ? data.discount : data.price);
@@ -69,10 +70,10 @@ export default async function Page({ params: { id } }) {
   };
 
   const handlePay = () => {
-    if (data && isLogin == true) {
+    if (data && user) {
       const price =
         countRef.current * parseInt(data.discount ? data.discount : data.price);
-      const qtyPrice = parseInt(data.discount ? data.discount : data.price);
+      const qtyPrice = parseInt(data.discount > 0 ? data.discount : data.price);
 
       const cartData = {
         productInfo: data._id,
@@ -111,6 +112,28 @@ export default async function Page({ params: { id } }) {
   } else {
     return (
       <>
+        <div
+          className="pageDetailsHeader"
+          style={{
+            background: `url(/images/header.jpg)`,
+            backgroundSize: "cover",
+          }}
+        >
+          <div className="container">
+            <h2> {data && data.name} </h2>
+            <div className="bread">
+              <li>
+                <Link href="/"> Нүүр </Link>
+              </li>
+              <span> /</span>
+              <li>
+                <Link href="/shop"> Дэлгүүр </Link>
+              </li>
+              <span> /</span>
+              <li> {data && data.name} </li>
+            </div>
+          </div>
+        </div>
         <section>
           <div className="container">
             <div className="row">
@@ -155,13 +178,20 @@ export default async function Page({ params: { id } }) {
                 <div className="page_sides sticky-top">
                   <div className="details-box">
                     <div className="price-box">
-                      <div className="price"> Үндсэн үнэ: </div>
-                      <h4>
-                        {new Intl.NumberFormat().format(
-                          data.discount ? data.discount : data.price
-                        )}
-                        ₮
-                      </h4>
+                      <span> Үндсэн үнэ: </span>
+                      {data.discount > 0 && (
+                        <h4>
+                          {new Intl.NumberFormat().format(data.discount)}₮{" "}
+                          <span>
+                            {" "}
+                            {new Intl.NumberFormat().format(data.price)}₮{" "}
+                          </span>
+                        </h4>
+                      )}
+
+                      {data.discount <= 0 && (
+                        <h4>{new Intl.NumberFormat().format(data.price)}₮ </h4>
+                      )}
                     </div>
                   </div>
                   <div className="divider-dashed"> </div>

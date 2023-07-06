@@ -12,23 +12,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useCookies } from "react-cookie";
+import MobileMenu from "components/Generals/MobileMenu";
 
 const HomeHeader = () => {
   const { info, getInfo } = useWebInfoContext();
   const { menus, getMenu } = useMenuContext();
-  const { userData, checkToken } = useAuthContext();
+  const { user } = useAuthContext();
   const { cart } = useCartContext();
   const [cookies] = useCookies(["zayatoken"]);
-
-  useEffect(() => {
-    if (
-      cookies.zayatoken !== undefined &&
-      cookies.zayatoken !== null &&
-      cookies.zayatoken !== "undefined"
-    ) {
-      checkToken(cookies.zayatoken);
-    }
-  }, [cookies]);
 
   useEffect(() => {
     getInfo();
@@ -56,14 +47,14 @@ const HomeHeader = () => {
               </div>
             </div>
             <div className="headerButtons">
-              {!userData && (
+              {!user && (
                 <Link href="/login">
                   <button className="user-btn">Хэрэглэгч</button>
                 </Link>
               )}
-              {userData && (
+              {user && (
                 <Link href="/userprofile">
-                  <button className="user-btn">{userData.firstName}</button>
+                  <button className="user-btn">{user.firstName}</button>
                 </Link>
               )}
               <Link href="/cart">
@@ -72,7 +63,7 @@ const HomeHeader = () => {
                   <span>{cart.length}</span>
                 </button>
               </Link>
-              {/* <MobileHeader /> */}
+              <MobileMenu />
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@ import { useCookies } from "react-cookie";
 export default function Page() {
   const [cookies] = useCookies(["zayatoken"]);
   const {
-    userData,
+    user,
     getUser,
     userInfoChange,
     isChange,
@@ -39,10 +39,10 @@ export default function Page() {
   }, [isChange]);
 
   useEffect(() => {
-    if (userData) {
-      form.setFieldsValue({ ...userData });
+    if (user) {
+      form.setFieldsValue({ ...user });
     }
-  }, [userData]);
+  }, [user]);
 
   useEffect(() => {
     toastControl("error", error);
@@ -61,9 +61,7 @@ export default function Page() {
         <div className="pro-box profile-card">
           <div className="profile-card-header">
             <h6> Хувийн мэдээлэл </h6>
-            <span>
-              Сүүлд өөрчлөлт хийгдсэн {userData && userData.updateAt}{" "}
-            </span>
+            <span>Сүүлд өөрчлөлт хийгдсэн {user && user.updateAt} </span>
             <div className="divider-dot"> </div>
             <Form
               name="basic"
@@ -128,18 +126,19 @@ export default function Page() {
                 </div>
                 <div className="col-md-6">
                   <Form.Item
-                    name="gender"
+                    name="email"
                     rules={[
                       {
                         required: true,
-                        message: "Хүйсээ сонгоно уу!",
+                        message: "Имэйлээ оруулна уу!",
                       },
                     ]}
                   >
-                    <Radio.Group name="radiogroup" defaultValue="female">
-                      <Radio value="male">Эрэгтэй</Radio>
-                      <Radio value="female">Эмэгтэй</Radio>
-                    </Radio.Group>
+                    <Input
+                      size="large"
+                      style={{ width: "100%", borderRadius: "2px" }}
+                      placeholder="Та Имэйлээ оруулна уу"
+                    />
                   </Form.Item>
                 </div>
               </div>

@@ -1,3 +1,4 @@
+import base from "lib/base";
 import { getService } from "lib/services";
 
 export async function generateMetadata({ params }) {
@@ -8,8 +9,16 @@ export async function generateMetadata({ params }) {
     title = service.name + " - " + title;
   }
 
+  let openGraph = {
+    images:
+      service && service.pictures && service.pictures[0] !== ""
+        ? `${base.cdnUrl}/${service.pictures[0]}`
+        : `${base.baseUrl}/images/header.jpg`,
+  };
+
   return {
     title,
+    openGraph,
   };
 }
 

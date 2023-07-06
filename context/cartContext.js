@@ -3,53 +3,41 @@ import axios from "axios-base";
 import React, { useState, createContext, useContext } from "react";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { useNotificationContext } from "./notificationContext";
+import { usePayContext } from "./payContext";
 
 const CartContext = createContext({});
 
-const errorRender = (error) => {
-  let resError = "Алдаа гарлаа дахин оролдоно уу";
-
-  if (error.message) {
-    resError = error.message;
-  }
-
-  if (error.response !== undefined && error.response.status !== undefined) {
-    resError = error.response.status;
-  }
-  if (
-    error.response !== undefined &&
-    error.response.data !== undefined &&
-    error.response.data.error !== undefined
-  ) {
-    resError = error.response.data.error.message;
-  }
-  return resError;
-};
-
 export const CartProvider = ({ children }) => {
+  const { setError, setAlert, setContentLoad } = useNotificationContext();
+  const { createQpayAndInvoice } = usePayContext();
   const [cart, setCarts] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["cart"]);
   const [total, setTotal] = useState(0);
+  const [isVerfi, setVerfi] = useState(false);
   const [info, setInfo] = useState({
-    orderMsg: null,
+    email: null,
     firstName: null,
     lastName: null,
     phoneNumber: null,
   });
-  const [error, setError] = useState(null);
-  const [notification, setNotification] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [invoiceData, setInvoiceData] = useState(null);
 
-  const clear = () => {
-    setNotification(null);
-    setError(null);
-    setLoading(false);
+  const cartInit = () => {
+    setTotal(0);
+    setContentLoad(false);
   };
 
   const cartAdd = (data) => {
+    cartInit();
     setCarts((bc) => [...bc, data]);
+    setAlert(data.name + " сагсанд нэмэгдлээ");
   };
+
+  useEffect(() => {
+    if (cookies.cart) {
+      setCarts(cookies.cart);
+    }
+  }, []);
 
   useEffect(() => {
     if (!cart || cart.length > 0) {
@@ -62,12 +50,6 @@ export const CartProvider = ({ children }) => {
     }
   }, [cart]);
 
-  useEffect(() => {
-    if (!cart || cart.length <= 0) {
-      if (cookies.cart) setCarts(cookies.cart);
-    }
-  }, [cart, cookies.cart]);
-
   const qtyChange = (data) => {
     if (data.length <= 0) {
       setCarts(() => []);
@@ -78,8 +60,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const createOrder = async (data) => {
-    setLoading(true);
-    await axios.get("payment");
+    setContentLoad(true);
     axios
       .post("orders", data)
       .then((result) => {
@@ -91,9 +72,13 @@ export const CartProvider = ({ children }) => {
           invoice_description: `${resultOrder.phoneNumber} - дугаартай хэрэглэгч B${resultOrder.orderNumber} - бараа захиалав.`,
           amount: resultOrder.totalPrice,
         };
-        setInvoiceData(invoiceData);
+        createQpayAndInvoice(invoiceData);
+        setContentLoad(false);
       })
-      .catch((error) => setError(errorRender(error)));
+      .catch((error) => {
+        setError(error);
+        setContentLoad(false);
+      });
   };
 
   return (
@@ -102,15 +87,13 @@ export const CartProvider = ({ children }) => {
         cart,
         setCarts,
         setInfo,
+        info,
         total,
         cartAdd,
-        info,
         qtyChange,
         createOrder,
-        loading,
-        error,
-        notification,
-        invoiceData,
+        isVerfi,
+        setVerfi,
       }}
     >
       {children}

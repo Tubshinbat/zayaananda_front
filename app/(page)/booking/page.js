@@ -26,34 +26,19 @@ import { useEffect, useState } from "react";
 import { Suspense } from "react";
 
 export default function Page() {
+  const { user } = useAuthContext();
+  const { visible, setVisible, isPaid, paymentInit, qpay, invoice } =
+    usePayContext();
   const {
-    serviceData,
-    setBooking,
     checkBooking,
-    verfiBooking,
-    error,
-    SetVerfiBooking,
     createBooking,
-    notification,
-    invoice,
+    verfiBooking,
+    setVerfiBooking,
+    serviceData,
     booking,
-    qpay,
-    isBooking,
   } = useBookingContext();
-
-  const { userData } = useAuthContext();
-  const {
-    visible,
-    setVisible,
-    isPaid,
-    notification: noti,
-    error: err,
-    init,
-  } = usePayContext();
-
   const [choiseDate, setChoiseDate] = useState();
   const [form] = Form.useForm();
-  const { isLogin } = useAuthContext();
 
   const requiredRule = {
     required: true,
@@ -66,7 +51,6 @@ export default function Page() {
 
   const choiseTimes = () => {
     const time = [];
-
     for (let i = 9; i <= 18; i++) {
       time.push({
         label: i + ":00",
@@ -82,68 +66,41 @@ export default function Page() {
       const data = {
         ...values,
         service: serviceData._id,
-        userId: userData && userData._id,
+        userId: user && user._id,
         date: choiseDate,
-        paidAdvance: serviceData.price * 0.2,
+        paidAdvance: serviceData.price * 0.3,
       };
 
-      setBooking(data);
       checkBooking(data);
     });
   };
 
   const handlePay = () => {
-    if (isBooking === false) {
-      createBooking(booking);
-    }
+    createBooking(booking);
     setVisible((bf) => (bf === true ? false : true));
   };
 
   const handleBack = () => {
-    SetVerfiBooking(false);
+    setVerfiBooking(false);
   };
 
   useEffect(() => {
-    if (userData) {
-      form.setFieldsValue({ ...userData });
+    if (user) {
+      form.setFieldsValue({ ...user });
     }
-  }, [userData]);
+  }, [user]);
 
   useEffect(() => {
-    if (verfiBooking === true) {
-      toastControl(
-        "success",
-        "Цаг авах боломжтой байна баталгаажуулалтаа хийнэ үү"
-      );
-    }
-  }, [verfiBooking]);
-
-  useEffect(() => {
-    toastControl("error", (error && error) || (err && err));
-  }, [error, err]);
-
-  useEffect(() => {
-    if (isPaid === true) {
-      if (isLogin === true) {
-        redirect("/userprofile/booking");
-      } else {
-        redirect("/");
-      }
-    }
+    if (isPaid === true)
+      if (user) redirect("/userprofile/booking");
+      else redirect("/");
   }, [isPaid]);
 
   useEffect(() => {
-    toastControl("success", (notification && notification) || (noti && noti));
-  }, [notification, noti]);
-
-  useEffect(() => {
-    if (isBooking === true) {
-      setVisible(true);
-    }
-  }, [isBooking]);
-
-  useEffect(() => {
-    init();
+    paymentInit();
+    return () => {
+      paymentInit();
+    };
   }, []);
 
   if (!serviceData) {
@@ -258,6 +215,15 @@ export default function Page() {
                                 />
                               </Form.Item>
                             </div>
+                            <div className="col-md-6">
+                              <Form.Item
+                                label="Имэйл хаяг"
+                                name="email"
+                                rules={[requiredRule]}
+                              >
+                                <Input placeholder="Имэйл хаягаа оруулна уу" />
+                              </Form.Item>
+                            </div>
                           </div>
                         </Form>
                       )}
@@ -292,6 +258,10 @@ export default function Page() {
                             <labe> Утасны дугаар: </labe>
                             {booking.phoneNumber}
                           </div>
+                          <div className="col-md-6">
+                            <labe> Имэйл хаяг: </labe>
+                            {booking.email}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -317,7 +287,7 @@ export default function Page() {
                         <p> Урьдчилгаа төлбөр </p>
                         <span>
                           {new Intl.NumberFormat().format(
-                            serviceData.price * 0.2
+                            serviceData.price * 0.3
                           )}
                           ₮
                         </span>

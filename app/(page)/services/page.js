@@ -1,4 +1,5 @@
 "use client";
+import BlockLoad from "components/Generals/blockLoad";
 import Loader from "components/Generals/Loader";
 import { htmlToText } from "html-to-text";
 import base from "lib/base";
@@ -10,17 +11,37 @@ import { Suspense, useEffect, useState } from "react";
 export default function Page() {
   const [menu, setMenu] = useState(null);
   const [services, setServices] = useState([]);
+  const [paginate, setPaginate] = useState({});
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const { menu } = await getMenu(`direct=services`);
-      const { services } = await getServices(`status=true`);
+      const { services, pagination } = await getServices(`status=true`);
       setMenu(menu);
       setServices(services);
+      setPaginate(pagination);
+      setLoader(false);
     };
 
     fetchData().catch((err) => console.log(err));
   }, []);
+
+  const nextpage = () => {
+    const next = async () => {
+      const { services, pagination } = await getServices(
+        `status=true&page=${paginate.nextPage}`
+      );
+      setServices((bs) => [...bs, ...services]);
+      setPaginate(pagination);
+      setLoader(false);
+    };
+
+    if (paginate && paginate.nextPage) {
+      setLoader(true);
+      next().catch((error) => console.log(error));
+    }
+  };
 
   return (
     <main>
@@ -30,12 +51,19 @@ export default function Page() {
           background:
             menu && menu.cover && menu.cover !== ""
               ? `url("${base.cdnUrl}/${menu.cover}")`
-              : `/images/header.jpg`,
-              backgroundSize: "cover"
+              : `url(/images/header.jpg)`,
+          backgroundSize: "cover",
         }}
       >
         <div className="container">
           <h2> Манай үйлчилгээнүүд </h2>
+          <div className="bread">
+            <li>
+              <Link href="/"> Нүүр </Link>
+            </li>
+            <span> /</span>
+            <li> {menu && menu.name} </li>
+          </div>
         </div>
       </div>
       <section>
@@ -116,7 +144,15 @@ export default function Page() {
                   }
                 })}
             </div>
+            {loader === true && <BlockLoad />}
           </Suspense>
+          {paginate && paginate.nextPage && (
+            <div className="pagination">
+              <button className="more-page" onClick={() => nextpage()}>
+                Дараагийн хуудас
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </main>
