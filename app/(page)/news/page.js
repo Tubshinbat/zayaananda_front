@@ -2,7 +2,7 @@
 
 import { faClock, faEye } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BlockLoad from "components/Generals/blockLoad";
+import BlockLoad from "components/Generals/BlockLoad";
 import Loader from "components/Generals/Loader";
 import { htmlToText } from "html-to-text";
 import base from "lib/base";

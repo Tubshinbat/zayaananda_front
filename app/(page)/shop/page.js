@@ -1,6 +1,6 @@
 "use client";
 
-import BlockLoad from "components/Generals/blockLoad";
+import BlockLoad from "components/Generals/BlockLoad";
 import Loader from "components/Generals/Loader";
 import NotFound from "components/Generals/Notfound";
 import base from "lib/base";

@@ -1,7 +1,7 @@
 "use client";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BlockLoad from "components/Generals/blockLoad";
+import BlockLoad from "components/Generals/BlockLoad";
 
 import base from "lib/base";
 import { getMenu } from "lib/menus";
